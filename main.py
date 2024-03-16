@@ -12,16 +12,13 @@ def main():
         tokenizer=tokenizer
     )
 
-    # print("data distribution across the splits:")
-    # print(classifier.data_distribution(split="train"))
-    # print(classifier.data_distribution(split="valid"))
-    # print(classifier.data_distribution(split="test"))
+    print(classifier.datasets)
 
-    # print(classifier.datasets)
-    # eval_results = classifier.evaluate("valid")
-    # print(eval_results)
+    eval_results = classifier.evaluate("valid")
+    print(eval_results)
 
     print(classifier.fine_tune())
+
 
 if __name__ == "__main__":
     main()
