@@ -14,6 +14,7 @@ class LLMClassifier:
         self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
         self.model = base_model
+        self.model.to(self.device)
         self.tokeniser = tokenizer
         self.pipe = TextClassificationPipeline(
             model=base_model,
@@ -68,6 +69,7 @@ class LLMClassifier:
             train_dataset=small_train_dataset,
             eval_dataset=small_valid_dataset,
             compute_metrics=compute_metrics,
+            logging_dir='./logs',
         )
         self.trainer.train()
 

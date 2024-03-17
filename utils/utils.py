@@ -27,4 +27,11 @@ def compute_metrics(eval_pred, metric: evaluate.Metric = None):
 
     # otherwise, default to "glue-mrpc", which will give accuracy and f1
     metric = evaluate.load("glue", "mrpc")
-    return metric.compute(predictions=predictions, references=labels)
+    metric1 = evaluate.load("precision")
+    metric2 = evaluate.load("recall")
+    return {
+        "f1": metric.compute(predictions=predictions, references=labels)["f1"],
+        "accuracy": metric.compute(predictions=predictions, references=labels)["accuracy"],
+        "recall": metric2.compute(predictions=predictions, references=labels)["recall"],
+        "precision": metric1.compute(predictions=predictions, references=labels)["precision"],
+    }

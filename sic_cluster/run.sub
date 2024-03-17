@@ -10,7 +10,7 @@ log                     = logs/run.$(ClusterId).log
 transfer_output         = True
 request_GPUs = 1
 request_CPUs = 1
-request_memory = 16G
+request_memory = 32G
 requirements = UidDomain == "cs.uni-saarland.de" && (GPUs_GlobalMemoryMb >= 3000)
 getenv = HOME
 +WantGPUHomeMounted = true
