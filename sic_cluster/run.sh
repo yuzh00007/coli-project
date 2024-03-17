@@ -3,4 +3,4 @@ echo $CUDA_VISIBLE_DEVICES
 echo $HOSTNAME
 which python
 
-python ../main.py
+python ../twitter_main.py

@@ -1,0 +1,58 @@
+import spacy
+import benepar
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, TextClassificationPipeline
+
+from classifiers.AbstractClassifier import AbstractClassifier
+
+
+def main():
+    tokenizer = AutoTokenizer.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta")
+    model = AutoModelForSequenceClassification.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta")
+
+    nlp = spacy.load('en_core_web_sm')
+    benepar.download('benepar_en3')
+    nlp.add_pipe('benepar', config={'model': 'benepar_en3'})
+    spacy.prefer_gpu()
+
+    classifier = AbstractClassifier(
+        base_model=model,
+        tokenizer=tokenizer,
+        nlp=nlp,
+    )
+    print(classifier.datasets)
+
+    classifier_w_parse = AbstractClassifier(
+        base_model=model,
+        tokenizer=tokenizer,
+        nlp=nlp,
+    )
+
+    print("\n", "-" * 15)
+    eval_results = classifier.evaluate("test", sample_size=10)
+    print(f"validation results out of the box {eval_results}")
+
+    classifier.finetune_setup(
+        num_epochs=2,
+        finetune_with_parse=False,
+        sample_size=10
+    )
+    classifier.train()
+
+    print("\n", "-" * 15)
+    eval_results = classifier.evaluate("test", sample_size=10)
+    print(f"test results after fine-tuning {eval_results}")
+
+    classifier_w_parse.finetune_setup(
+        num_epochs=2,
+        finetune_with_parse=True,
+        sample_size=10
+    )
+    classifier_w_parse.train()
+
+    print("\n", "-" * 15)
+    eval_results = classifier_w_parse.evaluate("test", sample_size=10)
+    print(f"test results after fine-tuning with parses {eval_results}")
+
+
+if __name__ == "__main__":
+    main()
