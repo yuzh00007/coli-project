@@ -18,8 +18,7 @@ def main():
     print(f"validation results out of the box {eval_results}")
 
     classifier.finetune(
-        num_epochs=10,
-        sample_size=100
+        num_epochs=5,
     )
 
     print("\n", "-" * 15)

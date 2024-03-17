@@ -43,17 +43,17 @@ class LLMClassifier:
         )
 
         tokenized_ds = tokenized_ds.remove_columns(["text"])
-        small_train_dataset = tokenized_ds["train"]
-        small_valid_dataset = tokenized_ds["valid"]
+        train_dataset = tokenized_ds["train"]
+        valid_dataset = tokenized_ds["valid"]
 
         # seeded run
         if seed:
-            small_train_dataset = small_train_dataset.shuffle(seed=seed)
-            small_valid_dataset = small_valid_dataset.shuffle(seed=seed)
+            train_dataset = train_dataset.shuffle(seed=seed)
+            valid_dataset = valid_dataset.shuffle(seed=seed)
         # sample run
         if sample_size:
-            small_train_dataset = small_train_dataset.select(range(sample_size))
-            small_valid_dataset = small_valid_dataset.select(range(sample_size))
+            train_dataset = train_dataset.select(range(sample_size))
+            valid_dataset = valid_dataset.select(range(sample_size))
 
         training_args = TrainingArguments(
             output_dir="test_trainer",
@@ -64,8 +64,8 @@ class LLMClassifier:
         self.trainer = Trainer(
             model=self.model,
             args=training_args,
-            train_dataset=small_train_dataset,
-            eval_dataset=small_valid_dataset,
+            train_dataset=train_dataset,
+            eval_dataset=valid_dataset,
             compute_metrics=compute_metrics,
         )
         self.trainer.train()
