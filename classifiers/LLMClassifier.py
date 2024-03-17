@@ -11,7 +11,7 @@ class LLMClassifier:
     def __init__(
         self,
         base_model, tokenizer, nlp,
-        seed=42, num_epochs=5
+        seed=42, clean_file_exists=False
     ):
         self.seed = seed
         self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
@@ -28,7 +28,7 @@ class LLMClassifier:
         )
         self.trainer = ...
 
-        self.datasets = self.preprocess_data()
+        self.datasets = self.preprocess_data(clean_file_exists)
         self.parse_distrib = ...
 
     def read_data(self):
@@ -41,7 +41,7 @@ class LLMClassifier:
 
         self.parse_distrib = generate_freq_category(human_distrib)
 
-    def preprocess_data(self):
+    def preprocess_data(self, clean_file_exists):
         # to be filled in by subclasses
         ...
 
