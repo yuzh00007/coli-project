@@ -1,9 +1,10 @@
-import re
 import nltk
 import spacy
+import pickle
 import benepar
-import pandas as pd
 from nltk.tree import *
+
+from utils.utils import read_csv_file
 
 
 def delete_leaves(tree):
@@ -48,39 +49,45 @@ def prune_depth(tree, depth=3):
     delete_leaves(tree)
 
 
-tweets = pd.read_csv(
-    "../data/tweets/sentiment-analysis-dataset.csv",
-    sep=",",
-    # TODO remove this, file too big to work with locally
-    nrows=500
-)
+def generate_parse_trees(nlp, texts, debug=True, pkl_file=None):
+    parse_dict = {}
+    num_fails = 0
+    for text in texts:
+        try:
+            doc = nlp(text)
+            for sent in list(doc.sents):
+                tree = Tree.fromstring(sent._.parse_string)
+                prune_depth(tree, 3)
+                # we keep count of each type of parse tree and increase it by one
+                parse_dict.update({
+                    str(tree): parse_dict.get(str(tree)) + 1 if parse_dict.get(str(tree)) else 1
+                })
+        # I'm not sure why sometimes the nlp call fails - maybe it just fails because
+        # some weirdness in the Twitter dataset.
+        except AssertionError:
+            num_fails += 1
 
-print(tweets)
+    if debug:
+        print(f"failed to parse: {num_fails} sentences")
 
-tweet_list = []
-[tweet_list.extend(re.split(r"\.!?", tweet)) for tweet in list(tweets["SentimentText"])]
-tweet_list = [tweet.strip() for tweet in tweet_list if len(tweet) > 15]
+    if pkl_file:
+        with open(pkl_file, 'wb') as file:
+            pickle.dump(parse_dict, file, protocol=pickle.HIGHEST_PROTOCOL)
+
+    return parse_dict
 
 
-nlp = spacy.load('en_core_web_sm')
-benepar.download('benepar_en3')
-nlp.add_pipe('benepar', config={'model': 'benepar_en3'})
-spacy.prefer_gpu()
+def main():
+    nlp = spacy.load('en_core_web_sm')
+    benepar.download('benepar_en3')
+    nlp.add_pipe('benepar', config={'model': 'benepar_en3'})
+    spacy.prefer_gpu()
 
-parse_dict = {}
-num_fails = 0
-for tweet in tweet_list:
-    try:
-        doc = nlp(tweet)
-        for sent in list(doc.sents):
-            tree = Tree.fromstring(sent._.parse_string)
-            prune_depth(tree, 3)
-            # we keep count of each type of parse tree and increase it by one
-            parse_dict.update({
-                str(tree): parse_dict.get(str(tree)) + 1 if parse_dict.get(str(tree)) else 1
-            })
-    # I'm not sure why sometimes the nlp call fails - maybe it just fails because
-    # some weirdness in the Twitter dataset.
-    except AssertionError:
-        num_fails += 1
+    train = read_csv_file("../data/tweepfake/train.csv")
+    human_tweets = list(train[train["account.type"] == "human"]["text"])[:20]
 
+    generate_parse_trees(nlp, human_tweets, pkl_file="./human_tweet_parse_count")
+
+
+if __name__ == "__main__":
+    ...
