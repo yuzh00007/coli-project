@@ -4,7 +4,7 @@ import pickle
 import benepar
 from nltk.tree import *
 
-from utils.utils import read_csv_file
+from utils import read_csv_file
 
 
 def delete_leaves(tree):
@@ -49,15 +49,33 @@ def prune_depth(tree, depth=3):
     delete_leaves(tree)
 
 
-def generate_parse_trees(nlp, texts, debug=True, pkl_file=None):
+def generate_parse(nlp, text, depth=3):
+    """
+    :param nlp: spacy nlp object
+    :param text: just a string text - to be parsed
+    :param depth: how many children down before we prune the tree
+    """
+    trees = []
+    doc = nlp(text)
+    for sent in list(doc.sents):
+        tree = Tree.fromstring(sent._.parse_string)
+        prune_depth(tree, depth)
+        trees.append(tree)
+
+    return trees
+
+
+def generate_parse_trees_distrib(nlp, texts, depth=3, debug=True, pkl_file=None):
+    """
+    creates a distribution of types of parse trees
+    :return: dictionary of parses to counts
+    """
     parse_dict = {}
     num_fails = 0
     for text in texts:
         try:
-            doc = nlp(text)
-            for sent in list(doc.sents):
-                tree = Tree.fromstring(sent._.parse_string)
-                prune_depth(tree, 3)
+            trees = generate_parse(nlp, text, depth)
+            for tree in trees:
                 # we keep count of each type of parse tree and increase it by one
                 parse_dict.update({
                     str(tree): parse_dict.get(str(tree)) + 1 if parse_dict.get(str(tree)) else 1
@@ -84,10 +102,30 @@ def main():
     spacy.prefer_gpu()
 
     train = read_csv_file("../data/tweepfake/train.csv")
-    human_tweets = list(train[train["account.type"] == "human"]["text"])[:20]
+    train = train[train.text.str.len() < 512]
+    human_tweets = list(train[train["account.type"] == "human"]["text"])
+    bot_tweets = list(train[train["account.type"] == "bot"]["text"])
 
-    generate_parse_trees(nlp, human_tweets, pkl_file="./human_tweet_parse_count")
+    generate_parse_trees_distrib(
+        nlp,
+        human_tweets,
+        debug=True,
+        pkl_file="./human_tweet_parse_count.pkl"
+    )
+
+    generate_parse_trees_distrib(
+        nlp,
+        bot_tweets,
+        debug=True,
+        pkl_file="./bot_tweet_parse_count.pkl"
+    )
 
 
 if __name__ == "__main__":
-    ...
+    main()
+
+    # train_sub["parses"] = train_sub.apply(
+    #     lambda x: ", ".join(
+    #         [str(x) for x in generate_parse(nlp, x["text"], depth=3)]
+    #     ), axis=1
+    # )

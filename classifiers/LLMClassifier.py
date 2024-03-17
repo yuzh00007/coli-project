@@ -7,7 +7,9 @@ from utils.utils import get_prediction, tokenize_function, compute_metrics
 
 
 class LLMClassifier:
-    def __init__(self, base_model, tokenizer, seed=42):
+    def __init__(
+        self, base_model, tokenizer, seed=42, num_epochs=5, sample=None
+    ):
         self.seed = seed
         self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
@@ -24,9 +26,7 @@ class LLMClassifier:
 
         self.datasets = self.preprocess_data()
 
-        # for finetuning
-        self.optimizer = AdamW(self.model.parameters(), lr=5e-5)
-        self.finetune_epoch = 10
+        self.finetune_setup(num_epochs=num_epochs, seed=seed, sample_size=sample)
 
     def read_data(self):
         ...
@@ -34,9 +34,16 @@ class LLMClassifier:
     def preprocess_data(self):
         ...
 
-    def finetune(
-        self, num_epochs=10, seed=42, sample_size=None
+    def create_new_data_cols(self):
+        ...
+
+    def finetune_setup(
+        self, num_epochs=5, seed=42, sample_size=None
     ):
+        """
+        create all the necessary stuff for the finetune step
+        including the evaluator, optimizer, arguments, and the trainer
+        """
         tokenized_ds = self.datasets.map(
             functools.partial(tokenize_function, tokeniser=self.tokeniser),
             batched=True
@@ -60,6 +67,8 @@ class LLMClassifier:
             evaluation_strategy="epoch",
             num_train_epochs=num_epochs,
         )
+        training_args.set_optimizer(name="adamw_torch", learning_rate=1e-3)
+        training_args.set_lr_scheduler(name="cosine_schedule_with_warmup", warmup_ratio=0.05)
 
         self.trainer = Trainer(
             model=self.model,
@@ -68,6 +77,8 @@ class LLMClassifier:
             eval_dataset=valid_dataset,
             compute_metrics=compute_metrics,
         )
+
+    def finetune(self):
         self.trainer.train()
 
     def calc_perplexity(self):
@@ -82,22 +93,15 @@ class LLMClassifier:
     def data_distribution(self):
         ...
 
-    def evaluate(self, split="test"):
-        import time
-        dataset_x = list(self.datasets[split]["text"])
-        dataset_y = list(self.datasets[split]["labels"])
+    def evaluate(self, split="test", sample_size=None):
+        """
+        evaluates the dataset with our trainer
+        :param split: either "train", "valid", or "test"
+        :param sample_size: provide a value if you want to run on smaller eval size
+        """
+        eval_set = self.datasets[split]
+        if sample_size:
+            eval_set = eval_set.select(range(20))
 
-        start = time.time()
-
-        predictions = [
-            get_prediction(x) for x in self.pipe(dataset_x)
-        ]
-        # it's label here b/c that's what the model returns - doesn't need to match labels like our dataset
-        pred_edit = [0 if x["label"] == "Human" else 1 for x in predictions]
-
-        end = time.time()
-
-        return {
-            "time": end - start,
-            "accuracy": sum(x == y for x, y in zip(dataset_y, pred_edit)) / len(dataset_x)
-        }
+        self.trainer.eval_dataset = eval_set
+        self.trainer.evaluate()

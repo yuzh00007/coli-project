@@ -9,6 +9,12 @@ def read_csv_file(file_path, sep=";"):
     return df
 
 
+def read_json_file(file_path):
+    json_obj = pd.read_json(path_or_buf=file_path, lines=True)
+
+    return json_obj
+
+
 def get_prediction(scores: dict):
     return max(scores, key=lambda x: x["score"])
 
@@ -17,21 +23,22 @@ def tokenize_function(examples, tokeniser):
     return tokeniser(examples["text"], padding="max_length", truncation=True)
 
 
-def compute_metrics(eval_pred, metric: evaluate.Metric = None):
+def compute_metrics(eval_pred, f1: evaluate.Metric = None):
     logits, labels = eval_pred
     predictions = np.argmax(logits, axis=-1)
 
     # in case you want to provide a specific metric
-    if metric:
-        return metric.compute(predictions=predictions, references=labels)
+    if f1:
+        return f1.compute(predictions=predictions, references=labels)
 
     # otherwise, default to "glue-mrpc", which will give accuracy and f1
-    metric = evaluate.load("glue", "mrpc")
-    metric1 = evaluate.load("precision")
-    metric2 = evaluate.load("recall")
+    f1 = evaluate.load("f1")
+    precision = evaluate.load("precision")
+    recall = evaluate.load("recall")
+    acc = evaluate.load("accuracy")
     return {
-        "f1": metric.compute(predictions=predictions, references=labels)["f1"],
-        "accuracy": metric.compute(predictions=predictions, references=labels)["accuracy"],
-        "recall": metric2.compute(predictions=predictions, references=labels)["recall"],
-        "precision": metric1.compute(predictions=predictions, references=labels)["precision"],
+        "f1": f1.compute(predictions=predictions, references=labels),
+        "recall": recall.compute(predictions=predictions, references=labels),
+        "precision": precision.compute(predictions=predictions, references=labels),
+        "accuracy": acc.compute(predictions=predictions, references=labels),
     }

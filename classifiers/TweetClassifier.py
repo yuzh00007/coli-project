@@ -6,8 +6,10 @@ from classifiers.LLMClassifier import LLMClassifier
 
 
 class TweetClassifier(LLMClassifier):
-    def __init__(self, base_model, tokenizer):
-        super(TweetClassifier, self).__init__(base_model, tokenizer)
+    def __init__(
+        self, base_model, tokenizer, seed=42, num_epochs=5, sample=None
+    ):
+        super(TweetClassifier, self).__init__(base_model, tokenizer, seed, num_epochs, sample)
 
     def read_data(self):
         train = read_csv_file("../data/tweepfake/train.csv")

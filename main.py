@@ -9,20 +9,19 @@ def main():
 
     classifier = TweetClassifier(
         base_model=model,
-        tokenizer=tokenizer
+        tokenizer=tokenizer,
+        sample=10
     )
     print(classifier.datasets)
 
     print("\n", "-" * 15)
-    eval_results = classifier.evaluate("valid")
+    eval_results = classifier.evaluate("test", sample_size=10)
     print(f"validation results out of the box {eval_results}")
 
-    classifier.finetune(
-        num_epochs=5,
-    )
+    classifier.finetune()
 
     print("\n", "-" * 15)
-    eval_results = classifier.evaluate("test")
+    eval_results = classifier.evaluate("test", sample_size=10)
     print(f"test results after fine-tuning {eval_results}")
 
 
