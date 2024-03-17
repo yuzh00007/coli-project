@@ -10,7 +10,7 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta")
     model = AutoModelForSequenceClassification.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta")
 
-    clean_file = Path("../data/tweepfake/train-clean.pkl")
+    clean_file = Path("./data/tweepfake/train-clean.pkl")
     clean_file_exist = clean_file.exists()
 
     nlp = None
