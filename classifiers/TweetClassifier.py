@@ -10,9 +10,9 @@ class TweetClassifier(LLMClassifier):
         super(TweetClassifier, self).__init__(base_model, tokenizer)
 
     def read_data(self):
-        train = read_csv_file("data/tweepfake/train.csv")
-        valid = read_csv_file("data/tweepfake/validation.csv")
-        test = read_csv_file("data/tweepfake/test.csv")
+        train = read_csv_file("../data/tweepfake/train.csv")
+        valid = read_csv_file("../data/tweepfake/validation.csv")
+        test = read_csv_file("../data/tweepfake/test.csv")
 
         return train, valid, test
 

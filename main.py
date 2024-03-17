@@ -14,10 +14,21 @@ def main():
 
     print(classifier.datasets)
 
+    print("\n", "-" * 15)
     eval_results = classifier.evaluate("valid")
-    print(eval_results)
+    print(f"validation results out of the box {eval_results}")
 
-    print(classifier.fine_tune())
+    results = classifier.finetune(
+        num_epochs=5,
+        sample_size=100,
+    )
+
+    print("\n", "-" * 15)
+    print(f"results after last training epoch: {results}")
+
+    print("\n", "-" * 15)
+    eval_results = classifier.evaluate("test")
+    print(f"test results after fine-tuning {eval_results}")
 
 
 if __name__ == "__main__":
