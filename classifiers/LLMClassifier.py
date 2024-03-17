@@ -1,6 +1,4 @@
-
 import torch
-import evaluate
 import functools
 from torch.optim import AdamW
 from transformers import TextClassificationPipeline, TrainingArguments, Trainer
@@ -69,7 +67,6 @@ class LLMClassifier:
             train_dataset=small_train_dataset,
             eval_dataset=small_valid_dataset,
             compute_metrics=compute_metrics,
-            logging_dir='./logs',
         )
         self.trainer.train()
 
