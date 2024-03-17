@@ -1,0 +1,40 @@
+/home/neuronet_team095/miniconda3/envs/coli_env/lib/python3.12/site-packages/transformers/pipelines/text_classification.py:104: UserWarning: `return_all_scores` is now deprecated,  if want a similar functionality use `top_k=None` instead of `return_all_scores=True` or `top_k=1` instead of `return_all_scores=False`.
+  warnings.warn(
+Traceback (most recent call last):
+  File "/home/neuronet_team095/coli-project/sic_cluster/../main.py", line 24, in <module>
+    main()
+  File "/home/neuronet_team095/coli-project/sic_cluster/../main.py", line 10, in main
+    classifier = TweetClassifier(
+                 ^^^^^^^^^^^^^^^^
+  File "/home/neuronet_team095/coli-project/classifiers/TweetClassifier.py", line 10, in __init__
+    super(TweetClassifier, self).__init__(base_model, tokenizer)
+  File "/home/neuronet_team095/coli-project/classifiers/LLMClassifier.py", line 18, in __init__
+    self.datasets = self.preprocess_data()
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/neuronet_team095/coli-project/classifiers/TweetClassifier.py", line 20, in preprocess_data
+    train, valid, test = self.read_data()
+                         ^^^^^^^^^^^^^^^^
+  File "/home/neuronet_team095/coli-project/classifiers/TweetClassifier.py", line 13, in read_data
+    train = read_csv_file("data/tweepfake/train.csv")
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/neuronet_team095/coli-project/utils/utils.py", line 5, in read_csv_file
+    df = pd.read_csv(file_path, sep=sep)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/neuronet_team095/miniconda3/envs/coli_env/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/neuronet_team095/miniconda3/envs/coli_env/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/neuronet_team095/miniconda3/envs/coli_env/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/neuronet_team095/miniconda3/envs/coli_env/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+                   ^^^^^^^^^^^
+  File "/home/neuronet_team095/miniconda3/envs/coli_env/lib/python3.12/site-packages/pandas/io/common.py", line 873, in get_handle
+    handle = open(
+             ^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'data/tweepfake/train.csv'
+
+ERROR conda.cli.main_run:execute(124): `conda run bash /home/neuronet_team095/coli-project/sic_cluster/run.sh` failed. (See above for error)

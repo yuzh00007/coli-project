@@ -1,0 +1,30 @@
+013 (46313.000.000) 2024-03-17 02:18:09 Job was released.
+	via condor_release (by user neuronet_team095)
+...
+001 (46313.000.000) 2024-03-17 02:18:22 Job executing on host: <134.96.59.11:9618?addrs=134.96.59.11-9618&alias=lofn.hpc.uni-saarland.de&noUDP&sock=startd_4060241_3028>
+	SlotName: @lofn.hpc.uni-saarland.de
+	AvailableGPUs = { GPUs_GPU_f968d76a }
+	CondorScratchDir = "/raid/condor/lib/condor/execute/dir_1183711"
+	Cpus = 1
+	Disk = 5499984
+	GPUs = 1
+	GPUs_GPU_f968d76a = [ DeviceUuid = "f968d76a-7475-2218-7b77-16ed4b0507fe"; DevicePciBusId = "0000:05:00.0"; Capability = 6.0; DeviceName = "Tesla P100-SXM2-16GB"; DriverVersion = 12.3; Id = "GPU-f968d76a"; ECCEnabled = true; GlobalMemoryMb = 16276; MaxSupportedVersion = 12030 ]
+	Memory = 16384
+...
+004 (46313.000.000) 2024-03-17 02:18:24 Job was evicted.
+	(0) CPU times
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+	0  -  Run Bytes Sent By Job
+	0  -  Run Bytes Received By Job
+	Partitionable Resources :    Usage  Request Allocated Assigned
+	   Cpus                 :        0        1         1 
+	   Disk (KB)            :        1        1   5499984 
+	   Gpus (Average)       :                 1         1 "GPU-f968d76a"
+	   Memory (MB)          :             16384     16384 
+	   TimeExecute (s)      :        2                    
+	   TimeSlotBusy (s)     :        2                    
+...
+009 (46313.000.000) 2024-03-17 02:18:24 Job was aborted.
+	via condor_rm (by user neuronet_team095)
+...

@@ -1,0 +1,73 @@
+'PROJECT_ROOT=/home/neuronet_team095/coli-project/sic_cluster'
+Running 'run.sh' in conda env coli_env
+Sun Mar 17 01:52:57 2024       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 545.23.08              Driver Version: 545.23.08    CUDA Version: 12.3     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  Tesla P100-SXM2-16GB           On  | 00000000:04:00.0 Off |                    0 |
+| N/A   40C    P0              93W / 300W |  11370MiB / 16384MiB |     97%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   1  Tesla P100-SXM2-16GB           On  | 00000000:05:00.0 Off |                    0 |
+| N/A   28C    P0              31W / 300W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   2  Tesla P100-SXM2-16GB           On  | 00000000:09:00.0 Off |                    0 |
+| N/A   31C    P0              29W / 300W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   3  Tesla P100-SXM2-16GB           On  | 00000000:0A:00.0 Off |                    0 |
+| N/A   42C    P0             115W / 300W |   6868MiB / 16384MiB |     88%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   4  Tesla P100-SXM2-16GB           On  | 00000000:8C:00.0 Off |                    0 |
+| N/A   28C    P0              31W / 300W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   5  Tesla P100-SXM2-16GB           On  | 00000000:8D:00.0 Off |                    0 |
+| N/A   28C    P0              30W / 300W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   6  Tesla P100-SXM2-16GB           On  | 00000000:90:00.0 Off |                    0 |
+| N/A   27C    P0              30W / 300W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   7  Tesla P100-SXM2-16GB           On  | 00000000:91:00.0 Off |                    0 |
+| N/A   48C    P0             161W / 300W |  13794MiB / 16384MiB |     75%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
++---------------------------------------------------------------------------------------+
+GPU-f968d76a
+neuronet_team095-46360.0-lofn.hpc.uni-saarland.de
+/home/neuronet_team095/miniconda3/envs/coli_env/bin/python
+DatasetDict({
+    train: Dataset({
+        features: ['text', 'labels', '__index_level_0__'],
+        num_rows: 20710
+    })
+    valid: Dataset({
+        features: ['text', 'labels', '__index_level_0__'],
+        num_rows: 2301
+    })
+    test: Dataset({
+        features: ['text', 'labels', '__index_level_0__'],
+        num_rows: 2555
+    })
+})
+{'time': 254.82672953605652, 'accuracy': 0.5028248587570622}
+{'eval_loss': 0.8425182104110718, 'eval_accuracy': 0.5, 'eval_runtime': 1.7823, 'eval_samples_per_second': 56.107, 'eval_steps_per_second': 7.294, 'epoch': 1.0}
+{'eval_loss': 0.9293999671936035, 'eval_accuracy': 0.49, 'eval_runtime': 1.716, 'eval_samples_per_second': 58.277, 'eval_steps_per_second': 7.576, 'epoch': 2.0}
+{'eval_loss': 0.9395621418952942, 'eval_accuracy': 0.54, 'eval_runtime': 1.7566, 'eval_samples_per_second': 56.929, 'eval_steps_per_second': 7.401, 'epoch': 3.0}
+{'train_runtime': 25.5588, 'train_samples_per_second': 11.738, 'train_steps_per_second': 1.526, 'train_loss': 0.8783944936899039, 'epoch': 3.0}
+None
+
