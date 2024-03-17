@@ -7,9 +7,9 @@ from classifiers.LLMClassifier import LLMClassifier
 
 class TweetClassifier(LLMClassifier):
     def __init__(
-        self, base_model, tokenizer, seed=42, num_epochs=5, sample=None
+        self, base_model, tokenizer, nlp, seed=42, num_epochs=5, sample=None
     ):
-        super(TweetClassifier, self).__init__(base_model, tokenizer, seed, num_epochs, sample)
+        super(TweetClassifier, self).__init__(base_model, tokenizer, nlp, seed, num_epochs, sample)
 
     def read_data(self):
         train = read_csv_file("../data/tweepfake/train.csv")
@@ -35,6 +35,11 @@ class TweetClassifier(LLMClassifier):
         train = train.drop(["screen_name", "class_type"], axis=1).rename(columns={"account.type": "labels"})
         valid = valid.drop(["screen_name", "class_type"], axis=1).rename(columns={"account.type": "labels"})
         test = test.drop(["screen_name", "class_type"], axis=1).rename(columns={"account.type": "labels"})
+
+        # create the new parse column for the training data
+        # if a text fails to parse, we remove it from the data
+        train["parse"] = self.create_new_parse_col(train)
+        train = train[train.parses.str.len() > 1]
 
         return ds.DatasetDict({
             "train": ds.Dataset.from_pandas(train),

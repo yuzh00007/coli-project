@@ -56,11 +56,17 @@ def generate_parse(nlp, text, depth=3):
     :param depth: how many children down before we prune the tree
     """
     trees = []
-    doc = nlp(text)
-    for sent in list(doc.sents):
-        tree = Tree.fromstring(sent._.parse_string)
-        prune_depth(tree, depth)
-        trees.append(tree)
+    try:
+        doc = nlp(text)
+        for sent in list(doc.sents):
+            tree = Tree.fromstring(sent._.parse_string)
+            prune_depth(tree, depth)
+            # for some reason - there are "\n" tokens in the parse string
+            # when it doesn't really mean anything - we're just removing them
+            tree = str(tree).replace("\n", "")
+            trees.append(tree)
+    except AssertionError:
+        pass
 
     return trees
 
@@ -123,9 +129,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-    # train_sub["parses"] = train_sub.apply(
-    #     lambda x: ", ".join(
-    #         [str(x) for x in generate_parse(nlp, x["text"], depth=3)]
-    #     ), axis=1
-    # )

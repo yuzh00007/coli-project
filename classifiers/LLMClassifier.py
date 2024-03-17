@@ -1,18 +1,21 @@
 import torch
 import functools
-from torch.optim import AdamW
 from transformers import TextClassificationPipeline, TrainingArguments, Trainer
 
-from utils.utils import get_prediction, tokenize_function, compute_metrics
+from utils.parse_trees import generate_parse
+from utils.utils import tokenize_function, compute_metrics
 
 
 class LLMClassifier:
     def __init__(
-        self, base_model, tokenizer, seed=42, num_epochs=5, sample=None
+        self,
+        base_model, tokenizer, nlp,
+        seed=42, num_epochs=5, sample=None
     ):
         self.seed = seed
         self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
+        self.nlp = nlp
         self.model = base_model
         self.model.to(self.device)
         self.tokeniser = tokenizer
@@ -34,8 +37,13 @@ class LLMClassifier:
     def preprocess_data(self):
         ...
 
-    def create_new_data_cols(self):
-        ...
+    def create_new_parse_col(self, ds):
+        parses = ds.apply(
+            lambda x: ", ".join(
+                [str(x) for x in generate_parse(self.nlp, x["text"], depth=3)]
+            ), axis=1
+        )
+        return parses
 
     def finetune_setup(
         self, num_epochs=5, seed=42, sample_size=None
@@ -68,7 +76,7 @@ class LLMClassifier:
             num_train_epochs=num_epochs,
         )
         training_args.set_optimizer(name="adamw_torch", learning_rate=1e-3)
-        training_args.set_lr_scheduler(name="cosine_schedule_with_warmup", warmup_ratio=0.05)
+        training_args.set_lr_scheduler(name="constant_with_warmup", warmup_ratio=0.05)
 
         self.trainer = Trainer(
             model=self.model,
