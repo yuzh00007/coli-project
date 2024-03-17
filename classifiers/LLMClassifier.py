@@ -53,8 +53,8 @@ class LLMClassifier:
             small_valid_dataset = small_valid_dataset.shuffle(seed=seed)
         # sample run
         if sample_size:
-            small_train_dataset = small_train_dataset.select(sample_size)
-            small_valid_dataset = small_valid_dataset.select(sample_size)
+            small_train_dataset = small_train_dataset.select(range(sample_size))
+            small_valid_dataset = small_valid_dataset.select(range(sample_size))
 
         training_args = TrainingArguments(
             output_dir="test_trainer",
