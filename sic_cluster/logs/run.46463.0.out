@@ -1,0 +1,82 @@
+'PROJECT_ROOT=/home/neuronet_team095/coli-project/sic_cluster'
+Running 'run.sh' in conda env coli_env
+Sun Mar 17 13:21:29 2024       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 545.23.08              Driver Version: 545.23.08    CUDA Version: 12.3     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  Tesla P100-SXM2-16GB           On  | 00000000:04:00.0 Off |                    0 |
+| N/A   47C    P0             147W / 300W |   6924MiB / 16384MiB |     86%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   1  Tesla P100-SXM2-16GB           On  | 00000000:05:00.0 Off |                    0 |
+| N/A   29C    P0              31W / 300W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   2  Tesla P100-SXM2-16GB           On  | 00000000:09:00.0 Off |                    0 |
+| N/A   31C    P0              29W / 300W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   3  Tesla P100-SXM2-16GB           On  | 00000000:0A:00.0 Off |                    0 |
+| N/A   30C    P0              31W / 300W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   4  Tesla P100-SXM2-16GB           On  | 00000000:8C:00.0 Off |                    0 |
+| N/A   28C    P0              31W / 300W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   5  Tesla P100-SXM2-16GB           On  | 00000000:8D:00.0 Off |                    0 |
+| N/A   28C    P0              30W / 300W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   6  Tesla P100-SXM2-16GB           On  | 00000000:90:00.0 Off |                    0 |
+| N/A   28C    P0              30W / 300W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   7  Tesla P100-SXM2-16GB           On  | 00000000:91:00.0 Off |                    0 |
+| N/A   28C    P0              32W / 300W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
++---------------------------------------------------------------------------------------+
+GPU-f968d76a
+neuronet_team095-46463.0-lofn.hpc.uni-saarland.de
+/home/neuronet_team095/miniconda3/envs/coli_env/bin/python
+DatasetDict({
+    train: Dataset({
+        features: ['text', 'labels', '__index_level_0__'],
+        num_rows: 20710
+    })
+    valid: Dataset({
+        features: ['text', 'labels', '__index_level_0__'],
+        num_rows: 2301
+    })
+    test: Dataset({
+        features: ['text', 'labels', '__index_level_0__'],
+        num_rows: 2555
+    })
+})
+
+ ---------------
+validation results out of the box {'time': 24.963562965393066, 'accuracy': 0.5028248587570622}
+{'eval_loss': 0.9423465728759766, 'eval_accuracy': 0.5, 'eval_f1': 0.6666666666666666, 'eval_runtime': 2.9556, 'eval_samples_per_second': 33.835, 'eval_steps_per_second': 4.398, 'epoch': 1.0}
+{'eval_loss': 0.766929030418396, 'eval_accuracy': 0.5, 'eval_f1': 0.6666666666666666, 'eval_runtime': 2.7212, 'eval_samples_per_second': 36.749, 'eval_steps_per_second': 4.777, 'epoch': 2.0}
+{'eval_loss': 1.041704535484314, 'eval_accuracy': 0.65, 'eval_f1': 0.7107438016528925, 'eval_runtime': 2.8689, 'eval_samples_per_second': 34.857, 'eval_steps_per_second': 4.531, 'epoch': 3.0}
+{'eval_loss': 1.2888973951339722, 'eval_accuracy': 0.46, 'eval_f1': 0.5714285714285714, 'eval_runtime': 2.5837, 'eval_samples_per_second': 38.704, 'eval_steps_per_second': 5.032, 'epoch': 4.0}
+{'eval_loss': 1.3734816312789917, 'eval_accuracy': 0.49, 'eval_f1': 0.6106870229007634, 'eval_runtime': 2.952, 'eval_samples_per_second': 33.875, 'eval_steps_per_second': 4.404, 'epoch': 5.0}
+{'train_runtime': 39.9765, 'train_samples_per_second': 12.507, 'train_steps_per_second': 1.626, 'train_loss': 0.7013989962064303, 'epoch': 5.0}
+
+ ---------------
+results after last training epoch: None
+
+ ---------------
+test results after fine-tuning {'time': 32.656357288360596, 'accuracy': 0.5655577299412916}
+

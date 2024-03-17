@@ -1,0 +1,29 @@
+000 (46492.000.000) 2024-03-17 17:16:03 Job submitted from host: <134.96.227.100:9618?addrs=134.96.227.100-9618&alias=conduit.hpc.uni-saarland.de&noUDP&sock=schedd_1440599_ab28>
+...
+001 (46492.000.000) 2024-03-17 17:16:13 Job executing on host: <134.96.59.12:9618?addrs=134.96.59.12-9618&alias=idun.hpc.uni-saarland.de&noUDP&sock=startd_4071212_61af>
+	SlotName: @idun.hpc.uni-saarland.de
+	AvailableGPUs = { GPUs_GPU_a9035eaf }
+	CondorScratchDir = "/raid/condor/lib/condor/execute/dir_1351515"
+	Cpus = 1
+	Disk = 5441863
+	GPUs = 1
+	GPUs_GPU_a9035eaf = [ DeviceUuid = "a9035eaf-a662-65d1-d015-e49579605030"; DevicePciBusId = "0000:8C:00.0"; Capability = 6.0; DeviceName = "Tesla P100-SXM2-16GB"; DriverVersion = 12.3; Id = "GPU-a9035eaf"; ECCEnabled = true; GlobalMemoryMb = 16276; MaxSupportedVersion = 12030 ]
+	Memory = 16384
+...
+004 (46492.000.000) 2024-03-17 17:17:30 Job was evicted.
+	(0) CPU times
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+	0  -  Run Bytes Sent By Job
+	0  -  Run Bytes Received By Job
+	Partitionable Resources :    Usage  Request Allocated Assigned
+	   Cpus                 :        0        1         1 
+	   Disk (KB)            :        1        1   5441863 
+	   Gpus (Average)       :                 1         1 "GPU-a9035eaf"
+	   Memory (MB)          :             16384     16384 
+	   TimeExecute (s)      :       77                    
+	   TimeSlotBusy (s)     :       78                    
+...
+009 (46492.000.000) 2024-03-17 17:17:30 Job was aborted.
+	via condor_rm (by user neuronet_team095)
+...

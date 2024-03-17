@@ -1,0 +1,32 @@
+000 (46456.000.000) 2024-03-17 13:42:33 Job submitted from host: <134.96.227.100:9618?addrs=134.96.227.100-9618&alias=conduit.hpc.uni-saarland.de&noUDP&sock=schedd_1440599_ab28>
+...
+001 (46456.000.000) 2024-03-17 13:42:46 Job executing on host: <134.96.59.12:9618?addrs=134.96.59.12-9618&alias=idun.hpc.uni-saarland.de&noUDP&sock=startd_4071212_61af>
+	SlotName: @idun.hpc.uni-saarland.de
+	AvailableGPUs = { GPUs_GPU_7e6bcf8a }
+	CondorScratchDir = "/raid/condor/lib/condor/execute/dir_1254641"
+	Cpus = 1
+	Disk = 5441863
+	GPUs = 1
+	GPUs_GPU_7e6bcf8a = [ DeviceUuid = "7e6bcf8a-69a2-d933-ee90-f0020a4c0f6e"; DevicePciBusId = "0000:90:00.0"; Capability = 6.0; DeviceName = "Tesla P100-SXM2-16GB"; DriverVersion = 12.3; Id = "GPU-7e6bcf8a"; ECCEnabled = true; GlobalMemoryMb = 16276; MaxSupportedVersion = 12030 ]
+	Memory = 16384
+...
+005 (46456.000.000) 2024-03-17 13:42:53 Job terminated.
+	(1) Normal termination (return value 2)
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	0  -  Run Bytes Sent By Job
+	0  -  Run Bytes Received By Job
+	0  -  Total Bytes Sent By Job
+	0  -  Total Bytes Received By Job
+	Partitionable Resources :    Usage  Request Allocated Assigned
+	   Cpus                 :        0        1         1 
+	   Disk (KB)            :        1        1   5441863 
+	   Gpus (Average)       :                 1         1 "GPU-7e6bcf8a"
+	   Memory (MB)          :             16384     16384 
+	   TimeExecute (s)      :        7                    
+	   TimeSlotBusy (s)     :        7                    
+
+	Job terminated of its own accord at 2024-03-17T12:42:53Z with exit-code 2.
+...
