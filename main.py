@@ -18,19 +18,40 @@ def main():
         base_model=model,
         tokenizer=tokenizer,
         nlp=nlp,
-        sample=10
     )
     print(classifier.datasets)
+
+    classifier_w_parse = TweetClassifier(
+        base_model=model,
+        tokenizer=tokenizer,
+        nlp=nlp,
+    )
 
     print("\n", "-" * 15)
     eval_results = classifier.evaluate("test", sample_size=10)
     print(f"validation results out of the box {eval_results}")
 
-    classifier.finetune()
+    classifier.finetune_setup(
+        num_epochs=2,
+        finetune_with_parse=False,
+        sample_size=10
+    )
+    classifier.train()
 
     print("\n", "-" * 15)
     eval_results = classifier.evaluate("test", sample_size=10)
     print(f"test results after fine-tuning {eval_results}")
+
+    classifier_w_parse.finetune_setup(
+        num_epochs=2,
+        finetune_with_parse=True,
+        sample_size=10
+    )
+    classifier_w_parse.train()
+
+    print("\n", "-" * 15)
+    eval_results = classifier_w_parse.evaluate("test", sample_size=10)
+    print(f"test results after fine-tuning with parses {eval_results}")
 
 
 if __name__ == "__main__":

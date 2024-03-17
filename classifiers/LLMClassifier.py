@@ -1,8 +1,9 @@
 import torch
 import functools
+import pandas as pd
 from transformers import TextClassificationPipeline, TrainingArguments, Trainer
 
-from utils.parse_trees import generate_parse
+from utils.parse_trees import generate_parse, generate_freq_category
 from utils.utils import tokenize_function, compute_metrics
 
 
@@ -10,7 +11,7 @@ class LLMClassifier:
     def __init__(
         self,
         base_model, tokenizer, nlp,
-        seed=42, num_epochs=5, sample=None
+        seed=42, num_epochs=5
     ):
         self.seed = seed
         self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
@@ -28,13 +29,20 @@ class LLMClassifier:
         self.trainer = ...
 
         self.datasets = self.preprocess_data()
-
-        self.finetune_setup(num_epochs=num_epochs, seed=seed, sample_size=sample)
+        self.parse_distrib = ...
 
     def read_data(self):
+        # to be filled in by subclasses
         ...
 
+    def read_parse_distribution(self, human_filepath, ai_filepath):
+        human_distrib = pd.read_pickle(human_filepath)
+        ai_distrib = pd.read_pickle(ai_filepath)
+
+        self.parse_distrib = generate_freq_category(human_distrib)
+
     def preprocess_data(self):
+        # to be filled in by subclasses
         ...
 
     def create_new_parse_col(self, ds):
@@ -45,19 +53,33 @@ class LLMClassifier:
         )
         return parses
 
+    def create_new_parse_category_col(self, ds):
+        parse_cat = ds.apply(
+            lambda x: [
+                self.parse_distrib.get(parse)
+                if self.parse_distrib.get(parse) else 0
+                for parse in x["parse"].split(", ")
+            ],
+            axis=1
+        )
+        return parse_cat
+
     def finetune_setup(
-        self, num_epochs=5, seed=42, sample_size=None
+        self, num_epochs=5, seed=42, sample_size=None, finetune_with_parse=False
     ):
         """
         create all the necessary stuff for the finetune step
         including the evaluator, optimizer, arguments, and the trainer
         """
+        col_name = "text"
+        if finetune_with_parse:
+            col_name = "concat"
         tokenized_ds = self.datasets.map(
-            functools.partial(tokenize_function, tokeniser=self.tokeniser),
+            functools.partial(tokenize_function, tokeniser=self.tokeniser, col_name=col_name),
             batched=True
         )
 
-        tokenized_ds = tokenized_ds.remove_columns(["text"])
+        tokenized_ds = tokenized_ds.remove_columns(["text", "concat"])
         train_dataset = tokenized_ds["train"]
         valid_dataset = tokenized_ds["valid"]
 
@@ -86,19 +108,11 @@ class LLMClassifier:
             compute_metrics=compute_metrics,
         )
 
-    def finetune(self):
+    def train(self):
         self.trainer.train()
 
     def calc_perplexity(self):
-        ...
-
-    def generate_parse_trees(self):
-        ...
-
-    def calc_parse_metric(self):
-        ...
-
-    def data_distribution(self):
+        # TODO - use library LM-PPL or huggingface evaluate's perplexity calculator
         ...
 
     def evaluate(self, split="test", sample_size=None):

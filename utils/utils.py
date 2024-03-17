@@ -19,8 +19,8 @@ def get_prediction(scores: dict):
     return max(scores, key=lambda x: x["score"])
 
 
-def tokenize_function(examples, tokeniser):
-    return tokeniser(examples["text"], padding="max_length", truncation=True)
+def tokenize_function(examples, tokeniser, col_name):
+    return tokeniser(examples[col_name], padding="max_length", truncation=True)
 
 
 def compute_metrics(eval_pred, f1: evaluate.Metric = None):
@@ -42,3 +42,25 @@ def compute_metrics(eval_pred, f1: evaluate.Metric = None):
         "precision": precision.compute(predictions=predictions, references=labels),
         "accuracy": acc.compute(predictions=predictions, references=labels),
     }
+
+
+def combine_two_dicts(dict1: dict, dict2: dict):
+    """
+    combines two dicts into one, adding their values
+    dictionaries must have numeral values
+    :return: new dictionary with combined keys, and added values
+    """
+    new_dict = {}
+    for key, value in dict1.items():
+        d2_val = dict2.get(key)
+        new_dict.update({
+            key: value + d2_val if d2_val else value
+        })
+
+    for key, value in dict2.items():
+        d1_val = dict1.get(key)
+        new_dict.update({
+            key: value + d1_val if d1_val else value
+        })
+
+    return new_dict

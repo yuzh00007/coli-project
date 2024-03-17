@@ -4,7 +4,8 @@ import pickle
 import benepar
 from nltk.tree import *
 
-from utils import read_csv_file
+# TODO for the condor submit - this is necessary?
+from .utils import read_csv_file
 
 
 def delete_leaves(tree):
@@ -49,7 +50,7 @@ def prune_depth(tree, depth=3):
     delete_leaves(tree)
 
 
-def generate_parse(nlp, text, depth=3):
+def generate_parse(nlp, text: str, depth=3):
     """
     :param nlp: spacy nlp object
     :param text: just a string text - to be parsed
@@ -71,7 +72,53 @@ def generate_parse(nlp, text, depth=3):
     return trees
 
 
-def generate_parse_trees_distrib(nlp, texts, depth=3, debug=True, pkl_file=None):
+def generate_freq_category(parse_dict: dict):
+    """
+    categorises each parse into a category from 1 - 11
+    with category 1 being top 1%, 2 being top 10%, 3 is top 20%, etc.
+
+    methodology taken from this paper:
+    https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5644354/
+    :param parse_dict: key = parse string, value = counts
+    :return:
+    """
+    # ensure parse dictionary is sorted
+    sorted_parse = {
+        k.replace("\n ", ""): v for k, v in sorted(
+            parse_dict.items(), key=lambda item: item[1], reverse=True
+        )
+    }
+    parse_list = list(sorted_parse)
+
+    parse_category_dict = {}
+    for index, parse in enumerate(parse_list):
+        if index < .01 * len(parse_list):
+            parse_category_dict.update({parse: 1})
+        elif index < .1 * len(parse_list):
+            parse_category_dict.update({parse: 2})
+        elif index < .2 * len(parse_list):
+            parse_category_dict.update({parse: 3})
+        elif index < .3 * len(parse_list):
+            parse_category_dict.update({parse: 4})
+        elif index < .4 * len(parse_list):
+            parse_category_dict.update({parse: 5})
+        elif index < .5 * len(parse_list):
+            parse_category_dict.update({parse: 6})
+        elif index < .6 * len(parse_list):
+            parse_category_dict.update({parse: 7})
+        elif index < .7 * len(parse_list):
+            parse_category_dict.update({parse: 8})
+        elif index < .8 * len(parse_list):
+            parse_category_dict.update({parse: 9})
+        elif index < .9 * len(parse_list):
+            parse_category_dict.update({parse: 10})
+        elif index < len(parse_list):
+            parse_category_dict.update({parse: 11})
+
+    return parse_category_dict
+
+
+def generate_parse_trees_distrib(nlp, texts: list, depth=3, debug=True, pkl_file=None):
     """
     creates a distribution of types of parse trees
     :return: dictionary of parses to counts
