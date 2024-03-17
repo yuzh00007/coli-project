@@ -4,7 +4,6 @@ import pickle
 import benepar
 from nltk.tree import *
 
-# TODO for the condor submit - this is necessary?
 from .utils import read_csv_file
 
 
