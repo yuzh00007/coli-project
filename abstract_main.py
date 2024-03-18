@@ -17,7 +17,7 @@ def main():
         model.save_pretrained("./models/original", from_pt=True)
     nlp = create_nlp_object()
 
-    clean_file = Path("./data/tweepfake/train-clean.pkl")
+    clean_file = Path("./data/cheat/train-clean.pkl")
     clean_file_exist = clean_file.exists()
     classifier = AbstractClassifier(
         base_model=model,
