@@ -4,5 +4,5 @@ echo $HOSTNAME
 which python
 
 #python -m ../utils/parse_trees.py
-python -m ../twitter_main.py
-#python -m ../abstract_main.py
+python ../twitter_main.py
+#python ../abstract_main.py
