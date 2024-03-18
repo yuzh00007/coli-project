@@ -17,12 +17,12 @@ class TweetClassifier(LLMClassifier):
     def read_data(self, read_clean=False):
         if not read_clean:
             train = read_csv_file(f"{self.data_path}/train.csv")
-            valid = read_csv_file(f"{self.data_path}/validation.csv")
+            valid = read_csv_file(f"{self.data_path}/valid.csv")
             test = read_csv_file(f"{self.data_path}/test.csv")
         else:
             try:
                 train = pd.read_pickle(f"{self.data_path}/train-clean.pkl")
-                valid = pd.read_pickle(f"{self.data_path}/validation-clean.pkl")
+                valid = pd.read_pickle(f"{self.data_path}/valid-clean.pkl")
                 test = pd.read_pickle(f"{self.data_path}/test-clean.pkl")
             except FileNotFoundError as error:
                 raise FileNotFoundError(
