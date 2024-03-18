@@ -44,10 +44,7 @@ class AbstractClassifier(LLMClassifier):
 
         if not clean_file_exists:
             # create the new parse column for the data
-            # if a text fails to parse, we remove it from the data
-            # except for the test and validation datasets, which we will keep all the data in there
             train["parse"] = self.create_new_parse_col(train)
-            train = train[train.parse.str.len() > 1]
             valid["parse"] = self.create_new_parse_col(valid)
             test["parse"] = self.create_new_parse_col(test)
 

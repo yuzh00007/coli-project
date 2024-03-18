@@ -49,12 +49,8 @@ class TweetClassifier(LLMClassifier):
             test = test[test.text.str.len() < 512]
 
             # create the new parse column for the data
-            # if a text fails to parse, we remove it from the data
-            # except for the test dataset, which we will keep all the data in there
             train["parse"] = self.create_new_parse_col(train)
-            train = train[train.parse.str.len() > 1]
             valid["parse"] = self.create_new_parse_col(valid)
-            valid = valid[valid.parse.str.len() > 1]
             test["parse"] = self.create_new_parse_col(test)
 
             # create the parse category column
