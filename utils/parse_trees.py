@@ -4,7 +4,7 @@ import pickle
 import benepar
 from nltk.tree import *
 
-from .utils import read_csv_file, read_json_file
+from utils.utils import read_csv_file, read_json_file
 
 
 def delete_leaves(tree):
