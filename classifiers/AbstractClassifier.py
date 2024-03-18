@@ -61,9 +61,9 @@ class AbstractClassifier(LLMClassifier):
             valid = valid.drop(["parse", "pcat"], axis=1)
             test = test.drop(["parse", "pcat"], axis=1)
 
-            train.to_pickle("../data/cheat/train-clean.csv")
-            valid.to_pickle("../data/cheat/valid-clean.csv")
-            test.to_pickle("../data/cheat/test-clean.csv")
+            train.to_pickle("../data/cheat/train-clean.pkl")
+            valid.to_pickle("../data/cheat/valid-clean.pkl")
+            test.to_pickle("../data/cheat/test-clean.pkl")
 
         return ds.DatasetDict({
             "train": ds.Dataset.from_pandas(train),

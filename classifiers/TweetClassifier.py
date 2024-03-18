@@ -73,9 +73,9 @@ class TweetClassifier(LLMClassifier):
                 ["screen_name", "class_type", "parse", "pcat"], axis=1
             ).rename(columns={"account.type": "labels"})
 
-            train.to_pickle("../data/tweepfake/train-clean.csv")
-            valid.to_pickle("../data/tweepfake/valid-clean.csv")
-            test.to_pickle("../data/tweepfake/test-clean.csv")
+            train.to_pickle("../data/tweepfake/train-clean.pkl")
+            valid.to_pickle("../data/tweepfake/valid-clean.pkl")
+            test.to_pickle("../data/tweepfake/test-clean.pkl")
 
         return ds.DatasetDict({
             "train": ds.Dataset.from_pandas(train),
