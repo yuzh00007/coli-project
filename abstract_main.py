@@ -1,5 +1,5 @@
 from pathlib import Path
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, TextClassificationPipeline
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 from utils.utils import create_nlp_object
 from classifiers.AbstractClassifier import AbstractClassifier
