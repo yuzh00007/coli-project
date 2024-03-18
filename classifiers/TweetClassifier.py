@@ -1,3 +1,5 @@
+import time
+
 import pandas as pd
 import datasets as ds
 
@@ -29,12 +31,18 @@ class TweetClassifier(LLMClassifier):
         return train, valid, test
 
     def preprocess_data(self, clean_file_exists):
+        print("~~~~E~~~~")
+        print(time.time())
+
         # read in files: for distribution and all of the data
         self.read_parse_distribution(
             human_filepath="../data/human_tweet_parse_count.pkl",
             ai_filepath="../data/bot_tweet_parse_count.pkl",
         )
         train, valid, test = self.read_data(clean_file_exists)
+
+        print("~~~~F~~~~")
+        print(time.time())
 
         if not clean_file_exists:
             # since we need 1's and 0's for training instead of text - this mapping needs to occur
@@ -77,6 +85,9 @@ class TweetClassifier(LLMClassifier):
             train.to_pickle("../data/tweepfake/train-clean.pkl")
             valid.to_pickle("../data/tweepfake/valid-clean.pkl")
             test.to_pickle("../data/tweepfake/test-clean.pkl")
+
+        print("~~~~G~~~~")
+        print(time.time())
 
         return ds.DatasetDict({
             "train": ds.Dataset.from_pandas(train),

@@ -1,3 +1,5 @@
+import time
+
 import torch
 import functools
 import pandas as pd
@@ -77,12 +79,10 @@ class LLMClassifier:
         col_name = "text"
         if self.finetune_with_parse:
             col_name = "concat"
-        tokenized_ds = self.datasets.map(
+        self.datasets = self.datasets.map(
             functools.partial(tokenize_function, tokeniser=self.tokeniser, col_name=col_name),
             batched=True
         )
-
-        self.datasets = tokenized_ds.remove_columns(["text", "concat"])
 
     def finetune_setup(
         self, num_epochs=5, seed=42, sample_size=None
@@ -103,6 +103,9 @@ class LLMClassifier:
             train_dataset = train_dataset.select(range(sample_size))
             valid_dataset = valid_dataset.select(range(sample_size))
 
+        print("~~~~H~~~~")
+        print(time.time())
+
         training_args = TrainingArguments(
             output_dir="test_trainer",
             evaluation_strategy="epoch",
@@ -110,6 +113,9 @@ class LLMClassifier:
         )
         training_args.set_optimizer(name="adamw_torch", learning_rate=1e-3)
         training_args.set_lr_scheduler(name="constant_with_warmup", warmup_ratio=0.05)
+
+        print("~~~~I~~~~")
+        print(time.time())
 
         self.trainer = Trainer(
             model=self.model,
