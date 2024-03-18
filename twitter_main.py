@@ -24,7 +24,8 @@ def main():
         base_model=model,
         tokenizer=tokenizer,
         nlp=nlp,
-        clean_file_exists=clean_file_exist
+        clean_file_exists=clean_file_exist,
+        finetune_with_parse=False,
     )
     print(classifier.datasets)
 
@@ -32,19 +33,18 @@ def main():
         base_model=model,
         tokenizer=tokenizer,
         nlp=nlp,
-        clean_file_exists=clean_file_exist
+        clean_file_exists=clean_file_exist,
+        finetune_with_parse=True
     )
 
     # do set up - in order to create all the things we will need during the finetune
     # phase. it's here to set up the trainer and evaluate
     classifier.finetune_setup(
         num_epochs=2,
-        finetune_with_parse=False,
         sample_size=10
     )
     classifier_w_parse.finetune_setup(
         num_epochs=2,
-        finetune_with_parse=True,
         sample_size=10
     )
 

@@ -7,9 +7,14 @@ from classifiers.LLMClassifier import LLMClassifier
 
 class AbstractClassifier(LLMClassifier):
     def __init__(
-        self, base_model, tokenizer, nlp, seed=42, clean_file_exists=False
+        self, base_model, tokenizer, nlp,
+        seed=42, clean_file_exists=False, finetune_with_parse=False
     ):
-        super(AbstractClassifier, self).__init__(base_model, tokenizer, nlp, seed, clean_file_exists)
+        super(AbstractClassifier, self).__init__(
+            base_model, tokenizer, nlp,
+            seed, clean_file_exists,
+            finetune_with_parse
+        )
 
     def read_data(self, clean_file_exists=False):
         if not clean_file_exists:
