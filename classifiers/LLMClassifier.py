@@ -4,18 +4,17 @@ import torch
 import functools
 import pandas as pd
 from transformers import TextClassificationPipeline, TrainingArguments, Trainer
-from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
-from utils.utils import get_prediction, tokenize_function, compute_metrics
+from utils.utils import tokenize_function, compute_metrics
 from utils.parse_trees import generate_parse, generate_freq_category
 
 
 class LLMClassifier:
     def __init__(
         self,
-        base_model, tokenizer, nlp,
+        base_model, tokenizer, nlp, data_folder_path,
         seed=42, clean_file_exists=False,
-        finetune_with_parse=False
+        finetune_with_parse=False,
     ):
         self.seed = seed
         self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
@@ -34,6 +33,7 @@ class LLMClassifier:
 
         self.finetune_with_parse = finetune_with_parse
 
+        self.data_path = data_folder_path
         self.datasets = self.preprocess_data(clean_file_exists)
         self.tokenise_dataset()
         self.parse_distrib = ...

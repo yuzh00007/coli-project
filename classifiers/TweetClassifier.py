@@ -8,9 +8,8 @@ from classifiers.LLMClassifier import LLMClassifier
 
 
 class TweetClassifier(LLMClassifier):
-    def __init__(self, data_folder_path, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.data_path = data_folder_path
 
     # REALLLLY messed up paths - if I were to redesign this
     # move the data read and processing into the individual main functions

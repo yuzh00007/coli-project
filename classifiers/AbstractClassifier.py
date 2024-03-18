@@ -6,9 +6,8 @@ from classifiers.LLMClassifier import LLMClassifier
 
 
 class AbstractClassifier(LLMClassifier):
-    def __init__(self, data_folder_path, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.data_path = data_folder_path
 
     def read_data(self, clean_file_exists=False):
         if not clean_file_exists:
