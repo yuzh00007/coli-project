@@ -53,13 +53,13 @@ def main():
     eval_results = classifier.evaluate("test", sample_size=10)
     print(f"validation results out of the box {eval_results}")
 
-    classifier.train("/models/finetuned-twitter")
+    classifier.train("./models/finetuned-twitter")
 
     print("\n", "-" * 15)
     eval_results = classifier.evaluate("test", sample_size=10)
     print(f"test results after fine-tuning {eval_results}")
 
-    classifier_w_parse.train("/models/parsed-twitter")
+    classifier_w_parse.train("./models/parsed-twitter")
 
     print("\n", "-" * 15)
     eval_results = classifier_w_parse.evaluate("test", sample_size=10)
