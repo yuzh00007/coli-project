@@ -137,4 +137,4 @@ class LLMClassifier:
         if sample_size:
             eval_set = eval_set.select(range(sample_size))
 
-        self.trainer.evaluate(eval_dataset=eval_set)
+        self.trainer.predict(test_dataset=eval_set)
