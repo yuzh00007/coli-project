@@ -3,6 +3,6 @@ echo $CUDA_VISIBLE_DEVICES
 echo $HOSTNAME
 which python
 
-#python -m ../utils/parse_trees.py
-python ../twitter_main.py
-#python ../abstract_main.py
+#python utils/parse_trees.py
+python twitter_main.py
+#python abstract_main.py
