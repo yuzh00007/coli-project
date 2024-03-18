@@ -1,9 +1,10 @@
 import torch
 import functools
 import pandas as pd
-from transformers import TrainingArguments, Trainer
+from transformers import TextClassificationPipeline, TrainingArguments, Trainer
+from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
-from utils.utils import tokenize_function, compute_metrics
+from utils.utils import get_prediction, tokenize_function, compute_metrics
 from utils.parse_trees import generate_parse, generate_freq_category
 
 
@@ -21,6 +22,12 @@ class LLMClassifier:
         self.model = base_model
         self.model.to(self.device)
         self.tokeniser = tokenizer
+        self.pipe = TextClassificationPipeline(
+            model=base_model,
+            tokenizer=tokenizer,
+            return_all_scores=True,
+            device=self.device
+        )
         self.trainer = ...
 
         self.finetune_with_parse = finetune_with_parse
@@ -122,19 +129,28 @@ class LLMClassifier:
         ...
 
     def evaluate(self, split="test", sample_size=None):
-        """
-        evaluates a specified split dataset with our trainer
+        import time
+        dataset_x = list(self.datasets[split]["text"])
+        dataset_y = list(self.datasets[split]["labels"])
 
-        :param split: either "train", "valid", or "test"
-        :param sample_size: provide a value if you want to run on smaller eval size
-        """
-        # some metrics can be undefined - in that having a 0 (not encountered) might cause an isse
-        # this warning should be outputted every time
-        import warnings
-        warnings.filterwarnings('always')
-
-        eval_set = self.datasets[split]
         if sample_size:
-            eval_set = eval_set.select(range(sample_size))
+            dataset_x = dataset_x[:sample_size]
+            dataset_y = dataset_y[:sample_size]
 
-        self.trainer.predict(test_dataset=eval_set)
+        start = time.time()
+
+        predictions = [
+            get_prediction(x) for x in self.pipe(dataset_x)
+        ]
+        # it's label here b/c that's what the model returns - doesn't need to match labels like our dataset
+        pred_edit = [0 if x["label"] == "Human" else 1 for x in predictions]
+
+        end = time.time()
+
+        return {
+            "time": end - start,
+            "accuracy": accuracy_score(dataset_y, pred_edit),
+            "f1": f1_score(dataset_y, pred_edit),
+            "recall": recall_score(dataset_y, pred_edit),
+            "precision": precision_score(dataset_y, pred_edit)
+        }

@@ -38,30 +38,25 @@ def main():
 
     # do set up - in order to create all the things we will need during the finetune
     # phase. it's here to set up the trainer and evaluate
-    classifier.finetune_setup(
-        num_epochs=2,
-        sample_size=10
-    )
-    classifier_w_parse.finetune_setup(
-        num_epochs=2,
-        sample_size=10
-    )
+    classifier.finetune_setup(num_epochs=5, sample_size=10)
+    classifier_w_parse.finetune_setup(num_epochs=5, sample_size=10)
+
+    print(f"validation results out of the box")
+    print(classifier.evaluate("test", sample_size=10))
 
     print("\n", "-" * 15)
-    print(f"validation results out of the box")
-    classifier.evaluate("test", sample_size=10)
-
     classifier.train("./models/finetuned-twitter")
 
     print("\n", "-" * 15)
     print(f"test results after fine-tuning")
-    classifier.evaluate("test", sample_size=10)
+    print(classifier.evaluate("test", sample_size=10))
 
+    print("\n", "-" * 15)
     classifier_w_parse.train("./models/parsed-twitter")
 
     print("\n", "-" * 15)
     print(f"test results after fine-tuning with parses")
-    classifier_w_parse.evaluate("test", sample_size=10)
+    print(classifier_w_parse.evaluate("test", sample_size=10))
 
 
 if __name__ == "__main__":

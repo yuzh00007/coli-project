@@ -47,21 +47,22 @@ def main():
         sample_size=10
     )
 
-    print("\n", "-" * 15)
     print(f"validation results out of the box")
-    classifier.evaluate("test", sample_size=10)
+    print(classifier.evaluate("test", sample_size=10))
 
+    print("\n", "-" * 15)
     classifier.train("./models/finetuned-abstract")
 
     print("\n", "-" * 15)
     print(f"test results after fine-tuning")
-    classifier.evaluate("test", sample_size=10)
+    print(classifier.evaluate("test", sample_size=10))
 
+    print("\n", "-" * 15)
     classifier_w_parse.train("./models/parsed-abstract")
 
     print("\n", "-" * 15)
     print(f"test results after fine-tuning with parses")
-    classifier_w_parse.evaluate("test", sample_size=10)
+    print(classifier_w_parse.evaluate("test", sample_size=10))
 
 
 if __name__ == "__main__":
