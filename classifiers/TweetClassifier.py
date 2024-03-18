@@ -12,8 +12,11 @@ class TweetClassifier(LLMClassifier):
         super().__init__(*args, **kwargs)
 
     # REALLLLY messed up paths - if I were to redesign this
-    # move the data read and processing into the individual main functions
-    # way I dealt with paths in here is HELLLLLA jank.
+    #   move the data read and processing into the individual main functions
+    #   the way I dealt with paths in here is HELLLLLA jank.
+    # ignore all the try-except FileNotFoundErrors as I was trying to hunt
+    #   down a reading file error and eh, it's kinda nice having that there
+    #   in case of dumb stupid issues with the working directory
     def read_data(self, read_clean=False):
         if not read_clean:
             train = read_csv_file(f"{self.data_path}/train.csv")
