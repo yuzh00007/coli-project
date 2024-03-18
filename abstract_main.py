@@ -25,7 +25,8 @@ def main():
         tokenizer=tokenizer,
         nlp=nlp,
         clean_file_exists=clean_file_exist,
-        finetune_with_parse=False
+        finetune_with_parse=False,
+        data_folder_path="./data/cheat"
     )
     print(classifier.datasets)
 
@@ -34,7 +35,8 @@ def main():
         tokenizer=tokenizer,
         nlp=nlp,
         clean_file_exists=clean_file_exist,
-        finetune_with_parse=True
+        finetune_with_parse=True,
+        data_folder_path="./data/cheat"
     )
 
     # do set up - in order to create all the things we will need during the finetune
@@ -69,6 +71,7 @@ def main():
 if __name__ == "__main__":
     # since we do the run from inside /sic_cluster
     # this is a hammer-meet-nail method to resolve dumb issues with file paths
+    # now all paths will be relative from the outside folder
     dir_path = os.path.dirname(os.path.realpath(__file__))
     os.chdir(dir_path)
 

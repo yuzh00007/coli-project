@@ -7,8 +7,9 @@ from classifiers.LLMClassifier import LLMClassifier
 
 class AbstractClassifier(LLMClassifier):
     def __init__(
-        self, base_model, tokenizer, nlp,
-        seed=42, clean_file_exists=False, finetune_with_parse=False
+        self, base_model, tokenizer, nlp, data_folder_path,
+        seed=42, clean_file_exists=False,
+        finetune_with_parse=False
     ):
         super(AbstractClassifier, self).__init__(
             base_model, tokenizer, nlp,
@@ -16,10 +17,12 @@ class AbstractClassifier(LLMClassifier):
             finetune_with_parse
         )
 
+        self.data_path = data_folder_path
+
     def read_data(self, clean_file_exists=False):
         if not clean_file_exists:
-            human = read_json_file("../data/cheat/ieee-init.jsonl")
-            chatgpt = read_json_file("../data/cheat/ieee-chatgpt-generation.jsonl")
+            human = read_json_file(f"{self.data_path}/ieee-init.jsonl")
+            chatgpt = read_json_file(f"{self.data_path}/ieee-chatgpt-generation.jsonl")
 
             # drop unnecessary columns, rename columns, create new label column, and concat two dfs together
             human = human.drop(["id", "title", "keyword"], axis=1).rename(columns={"abstract": "text"})
@@ -29,16 +32,16 @@ class AbstractClassifier(LLMClassifier):
             cheat = pd.concat([chatgpt, human], axis=0)
             return divide_data(cheat)
         else:
-            train = pd.read_pickle("../data/cheat/train-clean.pkl")
-            valid = pd.read_pickle("../data/cheat/validation-clean.pkl")
-            test = pd.read_pickle("../data/cheat/test-clean.pkl")
+            train = pd.read_pickle(f"{self.data_path}/train-clean.pkl")
+            valid = pd.read_pickle(f"{self.data_path}/validation-clean.pkl")
+            test = pd.read_pickle(f"{self.data_path}/test-clean.pkl")
             return train, valid, test
 
     def preprocess_data(self, clean_file_exists):
         # read in files: for distribution and all of the data
         self.read_parse_distribution(
-            human_filepath="../data/human_tweet_parse_count.pkl",
-            ai_filepath="../data/bot_tweet_parse_count.pkl",
+            human_filepath=f"{self.data_path}/human_abstract_parse_count.pkl",
+            ai_filepath=f"{self.data_path}/bot_abstract_parse_count.pkl",
         )
         train, valid, test = self.read_data(clean_file_exists)
 
@@ -63,9 +66,9 @@ class AbstractClassifier(LLMClassifier):
             valid = valid.drop(["parse", "pcat"], axis=1)
             test = test.drop(["parse", "pcat"], axis=1)
 
-            train.to_pickle("../data/cheat/train-clean.pkl")
-            valid.to_pickle("../data/cheat/valid-clean.pkl")
-            test.to_pickle("../data/cheat/test-clean.pkl")
+            train.to_pickle(f"{self.data_path}/train-clean.pkl")
+            valid.to_pickle(f"{self.data_path}/valid-clean.pkl")
+            test.to_pickle(f"{self.data_path}/test-clean.pkl")
 
         return ds.DatasetDict({
             "train": ds.Dataset.from_pandas(train),

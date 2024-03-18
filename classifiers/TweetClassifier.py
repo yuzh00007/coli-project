@@ -9,7 +9,7 @@ from classifiers.LLMClassifier import LLMClassifier
 
 class TweetClassifier(LLMClassifier):
     def __init__(
-        self, base_model, tokenizer, nlp,
+        self, base_model, tokenizer, nlp, data_folder_path,
         seed=42, clean_file_exists=False, finetune_with_parse=False
     ):
         super(TweetClassifier, self).__init__(
@@ -18,15 +18,20 @@ class TweetClassifier(LLMClassifier):
             finetune_with_parse
         )
 
+        self.data_path = data_folder_path
+
+    # REALLLLY messed up paths - if I were to redesign this
+    # move the data read and processing into the individual main functions
+    # way I dealt with paths in here is HELLLLLA jank.
     def read_data(self, read_clean=False):
         if not read_clean:
-            train = read_csv_file("../data/tweepfake/train.csv")
-            valid = read_csv_file("../data/tweepfake/validation.csv")
-            test = read_csv_file("../data/tweepfake/test.csv")
+            train = read_csv_file(f"{self.data_path}/train.csv")
+            valid = read_csv_file(f"{self.data_path}/validation.csv")
+            test = read_csv_file(f"{self.data_path}/test.csv")
         else:
-            train = pd.read_pickle("../data/tweepfake/train-clean.pkl")
-            valid = pd.read_pickle("../data/tweepfake/validation-clean.pkl")
-            test = pd.read_pickle("../data/tweepfake/test-clean.pkl")
+            train = pd.read_pickle(f"{self.data_path}/train-clean.pkl")
+            valid = pd.read_pickle(f"{self.data_path}/validation-clean.pkl")
+            test = pd.read_pickle(f"{self.data_path}/test-clean.pkl")
 
         return train, valid, test
 
@@ -36,8 +41,8 @@ class TweetClassifier(LLMClassifier):
 
         # read in files: for distribution and all of the data
         self.read_parse_distribution(
-            human_filepath="../data/human_tweet_parse_count.pkl",
-            ai_filepath="../data/bot_tweet_parse_count.pkl",
+            human_filepath=f"{self.data_path}/human_tweet_parse_count.pkl",
+            ai_filepath=f"{self.data_path}/bot_tweet_parse_count.pkl",
         )
         train, valid, test = self.read_data(clean_file_exists)
 
@@ -82,9 +87,9 @@ class TweetClassifier(LLMClassifier):
                 ["screen_name", "class_type", "parse", "pcat"], axis=1
             ).rename(columns={"account.type": "labels"})
 
-            train.to_pickle("../data/tweepfake/train-clean.pkl")
-            valid.to_pickle("../data/tweepfake/valid-clean.pkl")
-            test.to_pickle("../data/tweepfake/test-clean.pkl")
+            train.to_pickle(f"{self.data_path}/train-clean.pkl")
+            valid.to_pickle(f"{self.data_path}/valid-clean.pkl")
+            test.to_pickle(f"{self.data_path}/test-clean.pkl")
 
         print("~~~~G~~~~")
         print(time.time())

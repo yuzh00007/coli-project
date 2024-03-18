@@ -25,6 +25,7 @@ def main():
         nlp=nlp,
         clean_file_exists=clean_file_exist,
         finetune_with_parse=False,
+        data_folder_path="./data/tweepfake"
     )
     print(classifier.datasets)
 
@@ -33,7 +34,8 @@ def main():
         tokenizer=tokenizer,
         nlp=nlp,
         clean_file_exists=clean_file_exist,
-        finetune_with_parse=True
+        finetune_with_parse=True,
+        data_folder_path="./data/tweepfake"
     )
 
     # do set up - in order to create all the things we will need during the finetune
