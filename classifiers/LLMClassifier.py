@@ -134,7 +134,7 @@ class LLMClassifier:
 
         eval_set = self.datasets[split]
         if sample_size:
-            eval_set = eval_set.select(range(20))
+            eval_set = eval_set.select(range(sample_size))
 
         self.trainer.eval_dataset = eval_set
         self.trainer.evaluate()
