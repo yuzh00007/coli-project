@@ -5,6 +5,7 @@ import pickle
 import benepar
 from nltk.tree import *
 
+
 def read_csv_file(file_path, sep=";"):
     df = pd.read_csv(file_path, sep=sep)
 
@@ -135,11 +136,9 @@ def generate_parse_trees_distrib(nlp, texts: list, depth=3, debug=True, pkl_file
     parse_dict = {}
     num_fails = 0
     for text in texts:
-        print(text)
         try:
             trees = generate_parse(nlp, text, depth)
             for tree in trees:
-                print(str(tree))
                 # we keep count of each type of parse tree and increase it by one
                 parse_dict.update({
                     str(tree): parse_dict.get(str(tree)) + 1 if parse_dict.get(str(tree)) else 1
