@@ -5,7 +5,16 @@ import pickle
 import benepar
 from nltk.tree import *
 
-from utils import read_json_file, read_csv_file
+def read_csv_file(file_path, sep=";"):
+    df = pd.read_csv(file_path, sep=sep)
+
+    return df
+
+
+def read_json_file(file_path):
+    json_obj = pd.read_json(path_or_buf=file_path, lines=True)
+
+    return json_obj
 
 
 def delete_leaves(tree):
@@ -179,8 +188,8 @@ def tweepfake():
 
 
 def abstract_cheat():
-    human_abstract = read_json_file("data/cheat/ieee-init.jsonl")
-    bot_abstract = read_json_file("data/cheat/ieee-chatgpt-generation.jsonl")
+    human_abstract = read_json_file("../data/cheat/ieee-init.jsonl")
+    bot_abstract = read_json_file("../data/cheat/ieee-chatgpt-generation.jsonl")
 
     human_abstract = human_abstract["abstract"]
     bot_abstract = bot_abstract["abstract"]
