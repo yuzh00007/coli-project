@@ -6,15 +6,17 @@ from classifiers.AbstractClassifier import AbstractClassifier
 
 
 def main():
-    tokenizer = AutoTokenizer.from_pretrained(
-        "Hello-SimpleAI/chatgpt-detector-roberta",
-        cache_dir="./pretrained_cache_dir/"
-    )
-    model = AutoModelForSequenceClassification.from_pretrained(
-        "Hello-SimpleAI/chatgpt-detector-roberta",
-        cache_dir="./pretrained_cache_dir/"
-
-    )
+    tokenizer = AutoTokenizer.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta",)
+    # i noticed that the from_pretrained was taking minutes to do
+    # it's half a gigabyte of tensors
+    # so I simply saved the original model and read it locally each time
+    try:
+        model = AutoModelForSequenceClassification.from_pretrained(
+            "./model/original"
+        )
+    except OSError:
+        model = AutoModelForSequenceClassification.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta",)
+        model.save_pretrained("./model/original", from_pt=True)
     nlp = create_nlp_object()
 
     clean_file = Path("./data/tweepfake/train-clean.pkl")
