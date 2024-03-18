@@ -1,10 +1,11 @@
 import nltk
+import pandas as pd
 import spacy
 import pickle
 import benepar
 from nltk.tree import *
 
-from utils.utils import read_csv_file, read_json_file
+from utils import read_json_file, read_csv_file
 
 
 def delete_leaves(tree):
@@ -125,9 +126,11 @@ def generate_parse_trees_distrib(nlp, texts: list, depth=3, debug=True, pkl_file
     parse_dict = {}
     num_fails = 0
     for text in texts:
+        print(text)
         try:
             trees = generate_parse(nlp, text, depth)
             for tree in trees:
+                print(str(tree))
                 # we keep count of each type of parse tree and increase it by one
                 parse_dict.update({
                     str(tree): parse_dict.get(str(tree)) + 1 if parse_dict.get(str(tree)) else 1
@@ -141,7 +144,7 @@ def generate_parse_trees_distrib(nlp, texts: list, depth=3, debug=True, pkl_file
         print(f"failed to parse: {num_fails} sentences")
 
     if pkl_file:
-        with open(pkl_file, 'wb') as file:
+        with open(pkl_file, 'wb+') as file:
             pickle.dump(parse_dict, file, protocol=pickle.HIGHEST_PROTOCOL)
 
     return parse_dict
@@ -176,21 +179,24 @@ def tweepfake():
 
 
 def abstract_cheat():
-    human_abstract = read_json_file("../data/cheat/ieee-init.jsonl")
-    bot_abstract = read_json_file("../data/cheat/ieee-chatgpt-generation.jsonl")
+    human_abstract = read_json_file("data/cheat/ieee-init.jsonl")
+    bot_abstract = read_json_file("data/cheat/ieee-chatgpt-generation.jsonl")
+
+    human_abstract = human_abstract["abstract"]
+    bot_abstract = bot_abstract["abstract"]
 
     generate_parse_trees_distrib(
         nlp,
         human_abstract,
         debug=True,
-        pkl_file="../data/human_abstract_parse_count.pkl"
+        pkl_file="./human_abstract_parse_count.pkl"
     )
 
     generate_parse_trees_distrib(
         nlp,
         bot_abstract,
         debug=True,
-        pkl_file="../data/bot_abstract_parse_count.pkl"
+        pkl_file="./bot_abstract_parse_count.pkl"
     )
 
 
