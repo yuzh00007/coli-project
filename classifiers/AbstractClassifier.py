@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import datasets as ds
 
@@ -22,9 +23,16 @@ class AbstractClassifier(LLMClassifier):
             cheat = pd.concat([chatgpt, human], axis=0)
             return divide_data(cheat)
         else:
-            train = pd.read_pickle(f"{self.data_path}/train-clean.pkl")
-            valid = pd.read_pickle(f"{self.data_path}/validation-clean.pkl")
-            test = pd.read_pickle(f"{self.data_path}/test-clean.pkl")
+            try:
+                train = pd.read_pickle(f"{self.data_path}/train-clean.pkl")
+                valid = pd.read_pickle(f"{self.data_path}/validation-clean.pkl")
+                test = pd.read_pickle(f"{self.data_path}/test-clean.pkl")
+            except FileNotFoundError as error:
+                raise FileNotFoundError(
+                    f"{error}"
+                    f"could not read file - make sure the path is correct."
+                    f"current working dir: {os.getcwd()}"
+                )
             return train, valid, test
 
     def preprocess_data(self, clean_file_exists):
