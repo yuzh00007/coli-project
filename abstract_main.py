@@ -11,12 +11,10 @@ def main():
     # it's half a gigabyte of tensors
     # so I simply saved the original model and read it locally each time
     try:
-        model = AutoModelForSequenceClassification.from_pretrained(
-            "./model/original"
-        )
+        model = AutoModelForSequenceClassification.from_pretrained("./models/original")
     except OSError:
         model = AutoModelForSequenceClassification.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta",)
-        model.save_pretrained("./model/original", from_pt=True)
+        model.save_pretrained("./models/original", from_pt=True)
     nlp = create_nlp_object()
 
     clean_file = Path("./data/tweepfake/train-clean.pkl")
@@ -50,20 +48,20 @@ def main():
     )
 
     print("\n", "-" * 15)
-    eval_results = classifier.evaluate("test", sample_size=10)
-    print(f"validation results out of the box {eval_results}")
+    print(f"validation results out of the box")
+    classifier.evaluate("test", sample_size=10)
 
     classifier.train("./models/finetuned-abstract")
 
     print("\n", "-" * 15)
-    eval_results = classifier.evaluate("test", sample_size=10)
-    print(f"test results after fine-tuning {eval_results}")
+    print(f"test results after fine-tuning")
+    classifier.evaluate("test", sample_size=10)
 
     classifier_w_parse.train("./models/parsed-abstract")
 
     print("\n", "-" * 15)
-    eval_results = classifier_w_parse.evaluate("test", sample_size=10)
-    print(f"test results after fine-tuning with parses {eval_results}")
+    print(f"test results after fine-tuning with parses")
+    classifier_w_parse.evaluate("test", sample_size=10)
 
 
 if __name__ == "__main__":
