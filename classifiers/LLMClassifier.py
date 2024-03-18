@@ -126,6 +126,7 @@ class LLMClassifier:
         )
 
     def train(self, model_path: str = None):
+        self.model.train()
         self.trainer.train()
         if model_path:
             self.trainer.save_model(model_path)
@@ -135,28 +136,6 @@ class LLMClassifier:
         ...
 
     def evaluate(self, split="test", sample_size=None):
-        import time
-        dataset_x = list(self.datasets[split]["text"])
-        dataset_y = list(self.datasets[split]["labels"])
-
-        if sample_size:
-            dataset_x = dataset_x[:sample_size]
-            dataset_y = dataset_y[:sample_size]
-
-        start = time.time()
-
-        predictions = [
-            get_prediction(x) for x in self.pipe(dataset_x)
-        ]
-        # it's label here b/c that's what the model returns - doesn't need to match labels like our dataset
-        pred_edit = [0 if x["label"] == "Human" else 1 for x in predictions]
-
-        end = time.time()
-
-        return {
-            "time": end - start,
-            "accuracy": accuracy_score(dataset_y, pred_edit),
-            "f1": f1_score(dataset_y, pred_edit),
-            "recall": recall_score(dataset_y, pred_edit),
-            "precision": precision_score(dataset_y, pred_edit)
-        }
+        ds = self.datasets[split].select(range(sample_size))
+        self.model.eval()
+        self.trainer.evaluate(ds)
