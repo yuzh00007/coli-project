@@ -17,9 +17,9 @@ class TweetClassifier(LLMClassifier):
             valid = read_csv_file("../data/tweepfake/validation.csv")
             test = read_csv_file("../data/tweepfake/test.csv")
         else:
-            train = pd.read_pickle("../data/tweepfake/train-clean.csv")
-            valid = pd.read_pickle("../data/tweepfake/validation-clean.csv")
-            test = pd.read_pickle("../data/tweepfake/test-clean.csv")
+            train = pd.read_pickle("../data/tweepfake/train-clean.pkl")
+            valid = pd.read_pickle("../data/tweepfake/validation-clean.pkl")
+            test = pd.read_pickle("../data/tweepfake/test-clean.pkl")
 
         return train, valid, test
 

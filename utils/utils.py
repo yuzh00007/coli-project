@@ -1,6 +1,7 @@
 import evaluate
 import numpy as np
 import pandas as pd
+from sklearn.model_selection import train_test_split
 
 
 def read_csv_file(file_path, sep=";"):
@@ -64,3 +65,9 @@ def combine_two_dicts(dict1: dict, dict2: dict):
         })
 
     return new_dict
+
+
+def divide_data(dataset):
+    train, test = train_test_split(dataset, 0.15)
+    train, valid = train_test_split(train, 0.2)
+    return train, valid, test

@@ -4,7 +4,7 @@ import pickle
 import benepar
 from nltk.tree import *
 
-from .utils import read_csv_file
+from .utils import read_csv_file, read_json_file
 
 
 def delete_leaves(tree):
@@ -147,12 +147,14 @@ def generate_parse_trees_distrib(nlp, texts: list, depth=3, debug=True, pkl_file
     return parse_dict
 
 
-def main():
-    nlp = spacy.load('en_core_web_sm')
-    benepar.download('benepar_en3')
-    nlp.add_pipe('benepar', config={'model': 'benepar_en3'})
-    spacy.prefer_gpu()
+# global variables - bc it's easier this way
+nlp = spacy.load('en_core_web_sm')
+benepar.download('benepar_en3')
+nlp.add_pipe('benepar', config={'model': 'benepar_en3'})
+spacy.prefer_gpu()
 
+
+def tweepfake():
     train = read_csv_file("../data/tweepfake/train.csv")
     train = train[train.text.str.len() < 512]
     human_tweets = list(train[train["account.type"] == "human"]["text"])
@@ -173,5 +175,25 @@ def main():
     )
 
 
+def abstract_cheat():
+    human_abstract = read_json_file("../data/cheat/ieee-init.jsonl")
+    bot_abstract = read_json_file("../data/cheat/ieee-init.jsonl")
+
+    generate_parse_trees_distrib(
+        nlp,
+        human_abstract,
+        debug=True,
+        pkl_file="../data/human_abstract_parse_count.pkl"
+    )
+
+    generate_parse_trees_distrib(
+        nlp,
+        bot_abstract,
+        debug=True,
+        pkl_file="../data/bot_abstract_parse_count.pkl"
+    )
+
+
 if __name__ == "__main__":
-    main()
+    # tweepfake()
+    abstract_cheat()

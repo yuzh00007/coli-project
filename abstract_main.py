@@ -1,5 +1,6 @@
 import spacy
 import benepar
+from pathlib import Path
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, TextClassificationPipeline
 
 from classifiers.AbstractClassifier import AbstractClassifier
@@ -9,15 +10,21 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta")
     model = AutoModelForSequenceClassification.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta")
 
-    nlp = spacy.load('en_core_web_sm')
-    benepar.download('benepar_en3')
-    nlp.add_pipe('benepar', config={'model': 'benepar_en3'})
-    spacy.prefer_gpu()
+    clean_file = Path("./data/tweepfake/train-clean.pkl")
+    clean_file_exist = clean_file.exists()
+
+    nlp = None
+    if not clean_file_exist:
+        nlp = spacy.load('en_core_web_sm')
+        benepar.download('benepar_en3')
+        nlp.add_pipe('benepar', config={'model': 'benepar_en3'})
+        spacy.prefer_gpu()
 
     classifier = AbstractClassifier(
         base_model=model,
         tokenizer=tokenizer,
         nlp=nlp,
+        clean_file_exists=clean_file_exist
     )
     print(classifier.datasets)
 
@@ -25,6 +32,7 @@ def main():
         base_model=model,
         tokenizer=tokenizer,
         nlp=nlp,
+        clean_file_exists=clean_file_exist
     )
 
     print("\n", "-" * 15)
