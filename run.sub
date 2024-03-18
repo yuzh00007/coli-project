@@ -1,7 +1,7 @@
 universe                = docker
 docker_image            = pytorch/pytorch:2.0.1-cuda11.7-cudnn8-runtime
 # This uses the conda env
-executable              = conda_run.sh  
+executable              = sic_cluster/conda_run.sh
 environment             = PROJECT_ROOT=$ENV(PWD)
 initialdir              = $ENV(PWD)
 output                  = logs/run.$(ClusterId).$(ProcId).out

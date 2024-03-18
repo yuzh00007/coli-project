@@ -15,11 +15,11 @@ if [ ! -f ${CONDA} ]; then
   exit 0
 fi
 
-ENV_FILE=$PROJECT_ROOT/environment.yml
+ENV_FILE=$PROJECT_ROOT/sic_cluster/environment.yml
 ENV_NAME=$(awk -F ': ' '/name:/ {print $2}' $ENV_FILE)
 
 echo "Running 'run.sh' in conda env $ENV_NAME"
 
 cd ${PROJECT_ROOT}
-${CONDA} run -n ${ENV_NAME} bash ${PROJECT_ROOT}/run.sh
+${CONDA} run -n ${ENV_NAME} bash ${PROJECT_ROOT}/sic_cluster/run.sh
 

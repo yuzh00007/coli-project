@@ -22,7 +22,7 @@ else
   echo "Miniconda is already installed at '$CONDA_ROOT'"
 fi
 
-ENV_FILE=$PROJECT_ROOT/environment.yml
+ENV_FILE=$PROJECT_ROOT/sic_cluster/environment.yml
 ENV_NAME=$(awk -F ': ' '/name:/ {print $2}' $ENV_FILE)
 
 if conda env list | grep -q "$ENV_NAME"; then
