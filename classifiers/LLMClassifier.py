@@ -1,10 +1,10 @@
 import torch
 import functools
 import pandas as pd
-from transformers import TextClassificationPipeline, TrainingArguments, Trainer
+from transformers import TrainingArguments, Trainer
 
-from utils.parse_trees import generate_parse, generate_freq_category
 from utils.utils import tokenize_function, compute_metrics
+from utils.parse_trees import generate_parse, generate_freq_category
 
 
 class LLMClassifier:
@@ -20,12 +20,6 @@ class LLMClassifier:
         self.model = base_model
         self.model.to(self.device)
         self.tokeniser = tokenizer
-        self.pipe = TextClassificationPipeline(
-            model=base_model,
-            tokenizer=tokenizer,
-            return_all_scores=True,
-            device=self.device
-        )
         self.trainer = ...
 
         self.datasets = self.preprocess_data(clean_file_exists)
