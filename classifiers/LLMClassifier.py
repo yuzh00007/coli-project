@@ -1,3 +1,4 @@
+import os
 import time
 
 import torch
@@ -43,8 +44,15 @@ class LLMClassifier:
         ...
 
     def read_parse_distribution(self, human_filepath, ai_filepath):
-        human_distrib = pd.read_pickle(human_filepath)
-        ai_distrib = pd.read_pickle(ai_filepath)
+        try:
+            human_distrib = pd.read_pickle(human_filepath)
+            ai_distrib = pd.read_pickle(ai_filepath)
+        except FileNotFoundError as error:
+            raise FileNotFoundError(
+                f"{error}"
+                f"could not read file - make sure the path is correct."
+                f"current working dir: {os.getcwd()}"
+            )
 
         self.parse_distrib = generate_freq_category(human_distrib)
 

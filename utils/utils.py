@@ -1,3 +1,4 @@
+import os
 import spacy
 import benepar
 import numpy as np
@@ -7,13 +8,27 @@ from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 
 
 def read_csv_file(file_path, sep=";"):
-    df = pd.read_csv(file_path, sep=sep)
+    try:
+        df = pd.read_csv(file_path, sep=sep)
+    except FileNotFoundError as error:
+        raise FileNotFoundError(
+            f"{error}"
+            f"could not read file - make sure the path is correct."
+            f"current working dir: {os.getcwd()}"
+        )
 
     return df
 
 
 def read_json_file(file_path):
-    json_obj = pd.read_json(path_or_buf=file_path, lines=True)
+    try:
+        json_obj = pd.read_json(path_or_buf=file_path, lines=True)
+    except FileNotFoundError as error:
+        raise FileNotFoundError(
+            f"{error}"
+            f"could not read file - make sure the path is correct."
+            f"current working dir: {os.getcwd()}"
+        )
 
     return json_obj
 
