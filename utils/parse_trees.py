@@ -177,7 +177,7 @@ def tweepfake():
 
 def abstract_cheat():
     human_abstract = read_json_file("../data/cheat/ieee-init.jsonl")
-    bot_abstract = read_json_file("../data/cheat/ieee-init.jsonl")
+    bot_abstract = read_json_file("../data/cheat/ieee-chatgpt-generation.jsonl")
 
     generate_parse_trees_distrib(
         nlp,
