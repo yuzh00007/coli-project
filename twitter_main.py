@@ -46,18 +46,16 @@ def main():
     print(f"validation results out of the box")
     print(classifier.evaluate("test", sample_size=10))
 
-    print("\n", "-" * 15)
+    print("\n", "-" * 15, "training finetuned model")
     classifier.train("./models/finetuned-twitter")
 
-    print("\n", "-" * 15)
     print(f"test results after fine-tuning")
     print(classifier.evaluate("test", sample_size=10))
 
-    print("\n", "-" * 15)
+    print("\n", "-" * 15, "training parse-tree model")
     classifier_w_parse.train("./models/parsed-twitter")
 
-    print("\n", "-" * 15)
-    print(f"test results after fine-tuning with parses")
+    print(f"test results after fine-tuning with parse trees")
     print(classifier_w_parse.evaluate("test", sample_size=10))
 
 

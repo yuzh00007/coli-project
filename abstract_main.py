@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, TextClassificationPipeline
 
@@ -53,26 +52,18 @@ def main():
     print(f"validation results out of the box")
     print(classifier.evaluate("test", sample_size=10))
 
-    print("\n", "-" * 15)
+    print("\n", "-" * 15, "training finetuned model")
     classifier.train("./models/finetuned-abstract")
 
-    print("\n", "-" * 15)
     print(f"test results after fine-tuning")
     print(classifier.evaluate("test", sample_size=10))
 
-    print("\n", "-" * 15)
+    print("\n", "-" * 15, "training parse-tree model")
     classifier_w_parse.train("./models/parsed-abstract")
 
-    print("\n", "-" * 15)
-    print(f"test results after fine-tuning with parses")
+    print(f"test results after fine-tuning with parse trees")
     print(classifier_w_parse.evaluate("test", sample_size=10))
 
 
 if __name__ == "__main__":
-    # since we do the run from inside /sic_cluster
-    # this is a hammer-meet-nail method to resolve dumb issues with file paths
-    # now all paths will be relative from the outside folder
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    os.chdir(dir_path)
-
     main()
