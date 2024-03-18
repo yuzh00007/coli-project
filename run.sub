@@ -4,9 +4,9 @@ docker_image            = pytorch/pytorch:2.0.1-cuda11.7-cudnn8-runtime
 executable              = sic_cluster/conda_run.sh
 environment             = PROJECT_ROOT=$ENV(PWD)
 initialdir              = $ENV(PWD)
-output                  = logs/run.$(ClusterId).$(ProcId).out
-error                   = logs/run.$(ClusterId).$(ProcId).err
-log                     = logs/run.$(ClusterId).log
+output                  = sic_cluster/logs/run.$(ClusterId).$(ProcId).out
+error                   = sic_cluster/logs/run.$(ClusterId).$(ProcId).err
+log                     = sic_cluster/logs/run.$(ClusterId).log
 transfer_output         = True
 request_GPUs = 1
 request_CPUs = 1
