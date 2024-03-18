@@ -179,8 +179,8 @@ def tweepfake():
 
 
 def abstract_cheat():
-    human_abstract = read_json_file("data/cheat/ieee-init.jsonl")
-    bot_abstract = read_json_file("data/cheat/ieee-chatgpt-generation.jsonl")
+    human_abstract = read_json_file("../data/cheat/ieee-init.jsonl")
+    bot_abstract = read_json_file("../data/cheat/ieee-chatgpt-generation.jsonl")
 
     human_abstract = human_abstract["abstract"]
     bot_abstract = bot_abstract["abstract"]
