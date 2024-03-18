@@ -8,17 +8,10 @@ from classifiers.LLMClassifier import LLMClassifier
 
 
 class TweetClassifier(LLMClassifier):
-    def __init__(
-        self, base_model, tokenizer, nlp, data_folder_path,
-        seed=42, clean_file_exists=False, finetune_with_parse=False
-    ):
-        super(TweetClassifier, self).__init__(
-            base_model, tokenizer, nlp,
-            seed, clean_file_exists,
-            finetune_with_parse
-        )
-
+    def __init__(self, data_folder_path, *args, **kwargs):
         self.data_path = data_folder_path
+
+        super(TweetClassifier, self).__init__(*args, **kwargs)
 
     # REALLLLY messed up paths - if I were to redesign this
     # move the data read and processing into the individual main functions

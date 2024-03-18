@@ -6,16 +6,8 @@ from classifiers.LLMClassifier import LLMClassifier
 
 
 class AbstractClassifier(LLMClassifier):
-    def __init__(
-        self, base_model, tokenizer, nlp, data_folder_path,
-        seed=42, clean_file_exists=False,
-        finetune_with_parse=False
-    ):
-        super(AbstractClassifier, self).__init__(
-            base_model, tokenizer, nlp,
-            seed, clean_file_exists,
-            finetune_with_parse
-        )
+    def __init__(self, data_folder_path, *args, **kwargs):
+        super(AbstractClassifier, self).__init__(*args, **kwargs)
 
         self.data_path = data_folder_path
 
