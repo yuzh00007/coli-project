@@ -4,8 +4,6 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Text
 from utils.utils import create_nlp_object
 from classifiers.TweetClassifier import TweetClassifier
 
-import os
-
 
 def main():
     tokenizer = AutoTokenizer.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta",)
@@ -40,8 +38,8 @@ def main():
 
     # do set up - in order to create all the things we will need during the finetune
     # phase. it's here to set up the trainer and evaluate
-    classifier.finetune_setup(num_epochs=5, sample_size=10)
-    classifier_w_parse.finetune_setup(num_epochs=5, sample_size=10)
+    classifier.finetune_setup(num_epochs=2, sample_size=10)
+    classifier_w_parse.finetune_setup(num_epochs=2, sample_size=10)
 
     print(f"validation results out of the box")
     print(classifier.evaluate("test", sample_size=10))
@@ -62,9 +60,4 @@ def main():
 
 
 if __name__ == "__main__":
-    # since we do the run from inside /sic_cluster
-    # this is a hammer-meet-nail method to resolve dumb issues with file paths
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    os.chdir(dir_path)
-
     main()
