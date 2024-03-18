@@ -123,7 +123,8 @@ class LLMClassifier:
 
     def evaluate(self, split="test", sample_size=None):
         """
-        evaluates the dataset with our trainer
+        evaluates a specified split dataset with our trainer
+
         :param split: either "train", "valid", or "test"
         :param sample_size: provide a value if you want to run on smaller eval size
         """
@@ -136,5 +137,4 @@ class LLMClassifier:
         if sample_size:
             eval_set = eval_set.select(range(sample_size))
 
-        self.trainer.eval_dataset = eval_set
-        self.trainer.evaluate()
+        self.trainer.evaluate(eval_dataset=eval_set)
