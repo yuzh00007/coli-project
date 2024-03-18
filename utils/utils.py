@@ -1,3 +1,5 @@
+import spacy
+import benepar
 import evaluate
 import numpy as np
 import pandas as pd
@@ -14,6 +16,15 @@ def read_json_file(file_path):
     json_obj = pd.read_json(path_or_buf=file_path, lines=True)
 
     return json_obj
+
+
+def create_nlp_object():
+    nlp = spacy.load('en_core_web_sm')
+    benepar.download('benepar_en3')
+    nlp.add_pipe('benepar', config={'model': 'benepar_en3'})
+    spacy.prefer_gpu()
+
+    return nlp
 
 
 def get_prediction(scores: dict):

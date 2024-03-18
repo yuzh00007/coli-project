@@ -1,25 +1,24 @@
-import spacy
-import benepar
 from pathlib import Path
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, TextClassificationPipeline
 
+from utils.utils import create_nlp_object
 from classifiers.AbstractClassifier import AbstractClassifier
 
 
 def main():
-    tokenizer = AutoTokenizer.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta")
-    model = AutoModelForSequenceClassification.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta")
+    tokenizer = AutoTokenizer.from_pretrained(
+        "Hello-SimpleAI/chatgpt-detector-roberta",
+        cache_dir="./pretrained_cache_dir/"
+    )
+    model = AutoModelForSequenceClassification.from_pretrained(
+        "Hello-SimpleAI/chatgpt-detector-roberta",
+        cache_dir="./pretrained_cache_dir/"
+
+    )
+    nlp = create_nlp_object()
 
     clean_file = Path("./data/tweepfake/train-clean.pkl")
     clean_file_exist = clean_file.exists()
-
-    nlp = None
-    if not clean_file_exist:
-        nlp = spacy.load('en_core_web_sm')
-        benepar.download('benepar_en3')
-        nlp.add_pipe('benepar', config={'model': 'benepar_en3'})
-        spacy.prefer_gpu()
-
     classifier = AbstractClassifier(
         base_model=model,
         tokenizer=tokenizer,
@@ -34,7 +33,7 @@ def main():
         tokenizer=tokenizer,
         nlp=nlp,
         clean_file_exists=clean_file_exist,
-        finetune_with_parse = True
+        finetune_with_parse=True
     )
 
     # do set up - in order to create all the things we will need during the finetune
@@ -52,13 +51,13 @@ def main():
     eval_results = classifier.evaluate("test", sample_size=10)
     print(f"validation results out of the box {eval_results}")
 
-    classifier.train()
+    classifier.train("/models/finetuned-abstract")
 
     print("\n", "-" * 15)
     eval_results = classifier.evaluate("test", sample_size=10)
     print(f"test results after fine-tuning {eval_results}")
 
-    classifier_w_parse.train()
+    classifier_w_parse.train("/models/parsed-abstract")
 
     print("\n", "-" * 15)
     eval_results = classifier_w_parse.evaluate("test", sample_size=10)

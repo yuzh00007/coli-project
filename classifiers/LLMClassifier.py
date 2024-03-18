@@ -112,8 +112,10 @@ class LLMClassifier:
             compute_metrics=compute_metrics,
         )
 
-    def train(self):
+    def train(self, model_path: str = None):
         self.trainer.train()
+        if model_path:
+            self.trainer.save_model(model_path)
 
     def calc_perplexity(self):
         # TODO - use library LM-PPL or huggingface evaluate's perplexity calculator
