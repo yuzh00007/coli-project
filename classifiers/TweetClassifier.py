@@ -7,9 +7,14 @@ from classifiers.LLMClassifier import LLMClassifier
 
 class TweetClassifier(LLMClassifier):
     def __init__(
-        self, base_model, tokenizer, nlp, seed=42, clean_file_exists=False
+        self, base_model, tokenizer, nlp,
+        seed=42, clean_file_exists=False, finetune_with_parse=False
     ):
-        super(TweetClassifier, self).__init__(base_model, tokenizer, nlp, seed, clean_file_exists)
+        super(TweetClassifier, self).__init__(
+            base_model, tokenizer, nlp,
+            seed, clean_file_exists,
+            finetune_with_parse
+        )
 
     def read_data(self, read_clean=False):
         if not read_clean:

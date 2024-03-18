@@ -11,7 +11,8 @@ class LLMClassifier:
     def __init__(
         self,
         base_model, tokenizer, nlp,
-        seed=42, clean_file_exists=False
+        seed=42, clean_file_exists=False,
+        finetune_with_parse=False
     ):
         self.seed = seed
         self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
@@ -22,7 +23,10 @@ class LLMClassifier:
         self.tokeniser = tokenizer
         self.trainer = ...
 
+        self.finetune_with_parse = finetune_with_parse
+
         self.datasets = self.preprocess_data(clean_file_exists)
+        self.tokenise_dataset()
         self.parse_distrib = ...
 
     def read_data(self):
@@ -58,24 +62,30 @@ class LLMClassifier:
         )
         return parse_cat
 
-    def finetune_setup(
-        self, num_epochs=5, seed=42, sample_size=None, finetune_with_parse=False
-    ):
+    def tokenise_dataset(self):
         """
-        create all the necessary stuff for the finetune step
-        including the evaluator, optimizer, arguments, and the trainer
+        turn a specific column (depending on finetune_with_parse argument from constructor)
+        into input_ids for the Trainer
         """
         col_name = "text"
-        if finetune_with_parse:
+        if self.finetune_with_parse:
             col_name = "concat"
         tokenized_ds = self.datasets.map(
             functools.partial(tokenize_function, tokeniser=self.tokeniser, col_name=col_name),
             batched=True
         )
 
-        tokenized_ds = tokenized_ds.remove_columns(["text", "concat"])
-        train_dataset = tokenized_ds["train"]
-        valid_dataset = tokenized_ds["valid"]
+        self.datasets = tokenized_ds.remove_columns(["text", "concat"])
+
+    def finetune_setup(
+        self, num_epochs=5, seed=42, sample_size=None
+    ):
+        """
+        create all the necessary stuff for the finetune step
+        including the evaluator, optimizer, arguments, and the trainer
+        """
+        train_dataset = self.datasets["train"]
+        valid_dataset = self.datasets["valid"]
 
         # seeded run
         if seed:
