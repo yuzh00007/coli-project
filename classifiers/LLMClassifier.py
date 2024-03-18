@@ -127,6 +127,11 @@ class LLMClassifier:
         :param split: either "train", "valid", or "test"
         :param sample_size: provide a value if you want to run on smaller eval size
         """
+        # some metrics can be undefined - in that having a 0 (not encountered) might cause an isse
+        # this warning should be outputted every time
+        import warnings
+        warnings.filterwarnings('always')
+
         eval_set = self.datasets[split]
         if sample_size:
             eval_set = eval_set.select(range(20))
