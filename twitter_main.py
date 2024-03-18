@@ -4,6 +4,8 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Text
 from utils.utils import create_nlp_object
 from classifiers.TweetClassifier import TweetClassifier
 
+import os
+
 
 def main():
     tokenizer = AutoTokenizer.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta",)
@@ -60,4 +62,9 @@ def main():
 
 
 if __name__ == "__main__":
+    # since we do the run from inside /sic_cluster
+    # this is a hammer-meet-nail method to resolve dumb issues with file paths
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    os.chdir(dir_path)
+
     main()

@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, TextClassificationPipeline
 
@@ -66,4 +67,9 @@ def main():
 
 
 if __name__ == "__main__":
+    # since we do the run from inside /sic_cluster
+    # this is a hammer-meet-nail method to resolve dumb issues with file paths
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    os.chdir(dir_path)
+
     main()
