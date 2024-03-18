@@ -1,26 +1,0 @@
-/home/neuronet_team095/miniconda3/envs/coli_env/lib/python3.12/site-packages/transformers/pipelines/text_classification.py:104: UserWarning: `return_all_scores` is now deprecated,  if want a similar functionality use `top_k=None` instead of `return_all_scores=True` or `top_k=1` instead of `return_all_scores=False`.
-  warnings.warn(
-Map:   0%|          | 0/20710 [00:00<?, ? examples/s]Map:   5%|▍         | 1000/20710 [00:00<00:10, 1863.78 examples/s]Map:  10%|▉         | 2000/20710 [00:00<00:07, 2540.74 examples/s]Map:  14%|█▍        | 3000/20710 [00:01<00:06, 2892.35 examples/s]Map:  19%|█▉        | 4000/20710 [00:01<00:05, 3077.42 examples/s]Map:  24%|██▍       | 5000/20710 [00:01<00:04, 3213.95 examples/s]Map:  29%|██▉       | 6000/20710 [00:01<00:04, 3267.27 examples/s]Map:  34%|███▍      | 7000/20710 [00:02<00:04, 3288.41 examples/s]Map:  39%|███▊      | 8000/20710 [00:02<00:03, 3346.07 examples/s]Map:  43%|████▎     | 9000/20710 [00:02<00:03, 3369.94 examples/s]Map:  48%|████▊     | 10000/20710 [00:03<00:03, 2945.25 examples/s]Map:  53%|█████▎    | 11000/20710 [00:03<00:03, 3095.51 examples/s]Map:  58%|█████▊    | 12000/20710 [00:03<00:02, 3194.22 examples/s]Map:  63%|██████▎   | 13000/20710 [00:04<00:02, 3197.68 examples/s]Map:  68%|██████▊   | 14000/20710 [00:04<00:02, 3270.88 examples/s]Map:  72%|███████▏  | 15000/20710 [00:04<00:01, 3321.51 examples/s]Map:  77%|███████▋  | 16000/20710 [00:05<00:01, 3371.55 examples/s]Map:  82%|████████▏ | 17000/20710 [00:05<00:01, 3390.45 examples/s]Map:  87%|████████▋ | 18000/20710 [00:05<00:00, 3380.99 examples/s]Map:  92%|█████████▏| 19000/20710 [00:05<00:00, 3393.73 examples/s]Map:  97%|█████████▋| 20000/20710 [00:06<00:00, 3431.25 examples/s]Map: 100%|██████████| 20710/20710 [00:06<00:00, 3411.01 examples/s]Map: 100%|██████████| 20710/20710 [00:06<00:00, 3196.83 examples/s]
-Map:   0%|          | 0/2301 [00:00<?, ? examples/s]Map:  43%|████▎     | 1000/2301 [00:00<00:00, 3608.72 examples/s]Map:  87%|████████▋ | 2000/2301 [00:00<00:00, 3534.74 examples/s]Map: 100%|██████████| 2301/2301 [00:00<00:00, 3510.03 examples/s]
-Map:   0%|          | 0/2555 [00:00<?, ? examples/s]Map:  39%|███▉      | 1000/2555 [00:00<00:00, 3452.86 examples/s]Map:  78%|███████▊  | 2000/2555 [00:00<00:00, 3410.54 examples/s]Map: 100%|██████████| 2555/2555 [00:00<00:00, 3384.45 examples/s]Map: 100%|██████████| 2555/2555 [00:00<00:00, 3387.45 examples/s]
-Traceback (most recent call last):
-  File "/home/neuronet_team095/coli-project/sic_cluster/../main.py", line 35, in <module>
-    main()
-  File "/home/neuronet_team095/coli-project/sic_cluster/../main.py", line 21, in main
-    results = classifier.finetune(
-              ^^^^^^^^^^^^^^^^^^^^
-  File "/home/neuronet_team095/coli-project/classifiers/LLMClassifier.py", line 56, in finetune
-    small_train_dataset = small_train_dataset.select(sample_size)
-                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/neuronet_team095/miniconda3/envs/coli_env/lib/python3.12/site-packages/datasets/arrow_dataset.py", line 558, in wrapper
-    out: Union["Dataset", "DatasetDict"] = func(self, *args, **kwargs)
-                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/neuronet_team095/miniconda3/envs/coli_env/lib/python3.12/site-packages/datasets/fingerprint.py", line 482, in wrapper
-    out = func(dataset, *args, **kwargs)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/neuronet_team095/miniconda3/envs/coli_env/lib/python3.12/site-packages/datasets/arrow_dataset.py", line 3821, in select
-    start = next(iter(indices))
-                 ^^^^^^^^^^^^^
-TypeError: 'int' object is not iterable
-
-ERROR conda.cli.main_run:execute(124): `conda run bash /home/neuronet_team095/coli-project/sic_cluster/run.sh` failed. (See above for error)

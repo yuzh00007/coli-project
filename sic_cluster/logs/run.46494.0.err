@@ -1,16 +1,0 @@
-/home/neuronet_team095/miniconda3/envs/coli_env/lib/python3.12/site-packages/transformers/pipelines/text_classification.py:104: UserWarning: `return_all_scores` is now deprecated,  if want a similar functionality use `top_k=None` instead of `return_all_scores=True` or `top_k=1` instead of `return_all_scores=False`.
-  warnings.warn(
-Map:   0%|          | 0/20710 [00:00<?, ? examples/s]Map:   5%|▍         | 1000/20710 [00:00<00:06, 2959.65 examples/s]Map:  10%|▉         | 2000/20710 [00:00<00:06, 3064.02 examples/s]Map:  14%|█▍        | 3000/20710 [00:00<00:05, 3029.94 examples/s]Map:  19%|█▉        | 4000/20710 [00:01<00:05, 3054.04 examples/s]Map:  24%|██▍       | 5000/20710 [00:01<00:05, 3066.08 examples/s]Map:  29%|██▉       | 6000/20710 [00:01<00:04, 3082.20 examples/s]Map:  34%|███▍      | 7000/20710 [00:02<00:04, 3067.46 examples/s]Map:  39%|███▊      | 8000/20710 [00:02<00:04, 3094.06 examples/s]Map:  43%|████▎     | 9000/20710 [00:02<00:03, 3111.08 examples/s]Map:  48%|████▊     | 10000/20710 [00:03<00:03, 2724.95 examples/s]Map:  53%|█████▎    | 11000/20710 [00:03<00:03, 2855.00 examples/s]Map:  58%|█████▊    | 12000/20710 [00:04<00:02, 2943.96 examples/s]Map:  63%|██████▎   | 13000/20710 [00:04<00:02, 2940.81 examples/s]Map:  68%|██████▊   | 14000/20710 [00:04<00:02, 3009.65 examples/s]Map:  72%|███████▏  | 15000/20710 [00:04<00:01, 3054.42 examples/s]Map:  77%|███████▋  | 16000/20710 [00:05<00:01, 3082.49 examples/s]Map:  82%|████████▏ | 17000/20710 [00:05<00:01, 3109.24 examples/s]Map:  87%|████████▋ | 18000/20710 [00:05<00:00, 3120.13 examples/s]Map:  92%|█████████▏| 19000/20710 [00:06<00:00, 3151.45 examples/s]Map:  97%|█████████▋| 20000/20710 [00:06<00:00, 3163.58 examples/s]Map: 100%|██████████| 20710/20710 [00:06<00:00, 3177.58 examples/s]Map: 100%|██████████| 20710/20710 [00:06<00:00, 3051.11 examples/s]
-Map:   0%|          | 0/2301 [00:00<?, ? examples/s]Map:  43%|████▎     | 1000/2301 [00:00<00:00, 3382.10 examples/s]Map:  87%|████████▋ | 2000/2301 [00:00<00:00, 3305.62 examples/s]Map: 100%|██████████| 2301/2301 [00:00<00:00, 3288.25 examples/s]
-Map:   0%|          | 0/2555 [00:00<?, ? examples/s]Map:  39%|███▉      | 1000/2555 [00:00<00:00, 3179.56 examples/s]Map:  78%|███████▊  | 2000/2555 [00:00<00:00, 3193.72 examples/s]Map: 100%|██████████| 2555/2555 [00:00<00:00, 3168.67 examples/s]Map: 100%|██████████| 2555/2555 [00:00<00:00, 3165.19 examples/s]
-Traceback (most recent call last):
-  File "/home/neuronet_team095/coli-project/sic_cluster/../main.py", line 31, in <module>
-    main()
-  File "/home/neuronet_team095/coli-project/sic_cluster/../main.py", line 20, in main
-    classifier.finetune(
-  File "/home/neuronet_team095/coli-project/classifiers/LLMClassifier.py", line 69, in finetune
-    self.trainer = Trainer(
-                   ^^^^^^^^
-TypeError: Trainer.__init__() got an unexpected keyword argument 'logging_dir'
-
-ERROR conda.cli.main_run:execute(124): `conda run bash /home/neuronet_team095/coli-project/sic_cluster/run.sh` failed. (See above for error)
