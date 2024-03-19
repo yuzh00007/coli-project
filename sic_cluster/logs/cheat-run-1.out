@@ -1,0 +1,122 @@
+'PROJECT_ROOT=/home/neuronet_team095/coli-project'
+Running 'run.sh' in conda env coli_env
+Tue Mar 19 11:27:38 2024       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 545.23.08              Driver Version: 545.23.08    CUDA Version: 12.3     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  Tesla P100-PCIE-16GB           On  | 00000000:04:00.0 Off |                    0 |
+| N/A   35C    P0              25W / 250W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   1  Tesla P100-PCIE-16GB           On  | 00000000:06:00.0 Off |                    0 |
+| N/A   56C    P0             212W / 250W |  13720MiB / 16384MiB |     98%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   2  Tesla P100-PCIE-16GB           On  | 00000000:07:00.0 Off |                    0 |
+| N/A   51C    P0             129W / 250W |  15896MiB / 16384MiB |     99%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   3  Tesla P100-PCIE-16GB           On  | 00000000:08:00.0 Off |                    0 |
+| N/A   27C    P0              27W / 250W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   4  Tesla P100-PCIE-16GB           On  | 00000000:0C:00.0 Off |                    0 |
+| N/A   33C    P0              27W / 250W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   5  Tesla P100-PCIE-16GB           On  | 00000000:0D:00.0 Off |                    0 |
+| N/A   33C    P0              25W / 250W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   6  Tesla P100-PCIE-16GB           On  | 00000000:0E:00.0 Off |                    0 |
+| N/A   34C    P0              26W / 250W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   7  Tesla P100-PCIE-16GB           On  | 00000000:0F:00.0 Off |                    0 |
+| N/A   35C    P0              26W / 250W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
++---------------------------------------------------------------------------------------+
+GPU-0833fde1
+neuronet_team095-46794.0-uller.hpc.uni-saarland.de
+/home/neuronet_team095/miniconda3/envs/coli_env/bin/python
+DatasetDict({
+    train: Dataset({
+        features: ['text', 'labels', 'concat', '__index_level_0__', 'input_ids', 'attention_mask'],
+        num_rows: 24632
+    })
+    valid: Dataset({
+        features: ['text', 'labels', 'concat', '__index_level_0__', 'input_ids', 'attention_mask'],
+        num_rows: 3079
+    })
+    test: Dataset({
+        features: ['text', 'labels', 'concat', '__index_level_0__', 'input_ids', 'attention_mask'],
+        num_rows: 3079
+    })
+})
+--------------- 
+ training finetuned model
+{'loss': 0.6934, 'grad_norm': 1.8656755685806274, 'learning_rate': 0.001, 'epoch': 0.16}
+{'loss': 0.7187, 'grad_norm': 1.050682544708252, 'learning_rate': 0.001, 'epoch': 0.32}
+{'loss': 0.7216, 'grad_norm': 3.737839937210083, 'learning_rate': 0.001, 'epoch': 0.49}
+{'loss': 0.7311, 'grad_norm': 5.7672624588012695, 'learning_rate': 0.001, 'epoch': 0.65}
+{'loss': 0.7303, 'grad_norm': 7.201666355133057, 'learning_rate': 0.001, 'epoch': 0.81}
+{'loss': 0.7323, 'grad_norm': 6.4044928550720215, 'learning_rate': 0.001, 'epoch': 0.97}
+{'eval_loss': 0.6930437684059143, 'eval_f1': 0.34257587799208833, 'eval_recall': 0.5082819097109451, 'eval_precision': 0.2583504997394054, 'eval_accuracy': 0.5082819097109451, 'eval_runtime': 53.9725, 'eval_samples_per_second': 57.048, 'eval_steps_per_second': 7.133, 'epoch': 1.0}
+{'loss': 0.7332, 'grad_norm': 2.593318462371826, 'learning_rate': 0.001, 'epoch': 1.14}
+{'loss': 0.7495, 'grad_norm': 2.281798839569092, 'learning_rate': 0.001, 'epoch': 1.3}
+{'loss': 0.7263, 'grad_norm': 1.2997097969055176, 'learning_rate': 0.001, 'epoch': 1.46}
+{'loss': 0.7337, 'grad_norm': 4.844841957092285, 'learning_rate': 0.001, 'epoch': 1.62}
+{'loss': 0.7329, 'grad_norm': 6.815421104431152, 'learning_rate': 0.001, 'epoch': 1.79}
+{'loss': 0.7339, 'grad_norm': 2.3224527835845947, 'learning_rate': 0.001, 'epoch': 1.95}
+{'eval_loss': 0.7547596096992493, 'eval_f1': 0.34257587799208833, 'eval_recall': 0.5082819097109451, 'eval_precision': 0.2583504997394054, 'eval_accuracy': 0.5082819097109451, 'eval_runtime': 54.2815, 'eval_samples_per_second': 56.723, 'eval_steps_per_second': 7.093, 'epoch': 2.0}
+{'loss': 0.7335, 'grad_norm': 3.737048387527466, 'learning_rate': 0.001, 'epoch': 2.11}
+{'loss': 0.7281, 'grad_norm': 2.134920358657837, 'learning_rate': 0.001, 'epoch': 2.27}
+{'loss': 0.7214, 'grad_norm': 1.359606146812439, 'learning_rate': 0.001, 'epoch': 2.44}
+{'loss': 0.721, 'grad_norm': 1.1243491172790527, 'learning_rate': 0.001, 'epoch': 2.6}
+{'loss': 0.7199, 'grad_norm': 0.9398557543754578, 'learning_rate': 0.001, 'epoch': 2.76}
+{'loss': 0.7145, 'grad_norm': 0.8063222169876099, 'learning_rate': 0.001, 'epoch': 2.92}
+{'eval_loss': 0.6936081647872925, 'eval_f1': 0.34257587799208833, 'eval_recall': 0.5082819097109451, 'eval_precision': 0.2583504997394054, 'eval_accuracy': 0.5082819097109451, 'eval_runtime': 53.9748, 'eval_samples_per_second': 57.045, 'eval_steps_per_second': 7.133, 'epoch': 3.0}
+{'train_runtime': 4472.1635, 'train_samples_per_second': 16.524, 'train_steps_per_second': 2.065, 'train_loss': 0.7259810900835295, 'epoch': 3.0}
+
+ test results after fine-tuning
+{'eval_loss': 0.6949045658111572, 'eval_f1': 0.32847304725119447, 'eval_recall': 0.49561545956479375, 'eval_precision': 0.24563468375962172, 'eval_accuracy': 0.49561545956479375, 'eval_runtime': 54.0241, 'eval_samples_per_second': 56.993, 'eval_steps_per_second': 7.126, 'epoch': 3.0}
+--------------- 
+ training parse-tree model
+{'loss': 0.7035, 'grad_norm': 0.6332804560661316, 'learning_rate': 0.001, 'epoch': 0.16}
+{'loss': 0.7065, 'grad_norm': 0.4908437430858612, 'learning_rate': 0.001, 'epoch': 0.32}
+{'loss': 0.7001, 'grad_norm': 1.0199939012527466, 'learning_rate': 0.001, 'epoch': 0.49}
+{'loss': 0.7007, 'grad_norm': 0.5820711255073547, 'learning_rate': 0.001, 'epoch': 0.65}
+{'loss': 0.7012, 'grad_norm': 0.5380646586418152, 'learning_rate': 0.001, 'epoch': 0.81}
+{'loss': 0.6992, 'grad_norm': 0.7440913915634155, 'learning_rate': 0.001, 'epoch': 0.97}
+{'eval_loss': 0.693145751953125, 'eval_f1': 0.34257587799208833, 'eval_recall': 0.5082819097109451, 'eval_precision': 0.2583504997394054, 'eval_accuracy': 0.5082819097109451, 'eval_runtime': 54.6222, 'eval_samples_per_second': 56.369, 'eval_steps_per_second': 7.048, 'epoch': 1.0}
+{'loss': 0.6989, 'grad_norm': 0.5124708414077759, 'learning_rate': 0.001, 'epoch': 1.14}
+{'loss': 0.6996, 'grad_norm': 0.5110883712768555, 'learning_rate': 0.001, 'epoch': 1.3}
+{'loss': 0.6975, 'grad_norm': 0.44861897826194763, 'learning_rate': 0.001, 'epoch': 1.46}
+{'loss': 0.6992, 'grad_norm': 0.520218014717102, 'learning_rate': 0.001, 'epoch': 1.62}
+{'loss': 0.6972, 'grad_norm': 1.2275949716567993, 'learning_rate': 0.001, 'epoch': 1.79}
+{'loss': 0.6984, 'grad_norm': 0.37982603907585144, 'learning_rate': 0.001, 'epoch': 1.95}
+{'eval_loss': 0.7023330330848694, 'eval_f1': 0.34257587799208833, 'eval_recall': 0.5082819097109451, 'eval_precision': 0.2583504997394054, 'eval_accuracy': 0.5082819097109451, 'eval_runtime': 54.6354, 'eval_samples_per_second': 56.355, 'eval_steps_per_second': 7.047, 'epoch': 2.0}
+{'loss': 0.6975, 'grad_norm': 0.5199277400970459, 'learning_rate': 0.001, 'epoch': 2.11}
+{'loss': 0.698, 'grad_norm': 0.4784770607948303, 'learning_rate': 0.001, 'epoch': 2.27}
+{'loss': 0.6964, 'grad_norm': 0.725172758102417, 'learning_rate': 0.001, 'epoch': 2.44}
+{'loss': 0.6982, 'grad_norm': 0.38025230169296265, 'learning_rate': 0.001, 'epoch': 2.6}
+{'loss': 0.6982, 'grad_norm': 0.46576738357543945, 'learning_rate': 0.001, 'epoch': 2.76}
+{'loss': 0.6981, 'grad_norm': 0.43303483724594116, 'learning_rate': 0.001, 'epoch': 2.92}
+{'eval_loss': 0.6936755776405334, 'eval_f1': 0.3241720830383754, 'eval_recall': 0.4917180902890549, 'eval_precision': 0.24178668031751516, 'eval_accuracy': 0.4917180902890549, 'eval_runtime': 54.2322, 'eval_samples_per_second': 56.774, 'eval_steps_per_second': 7.099, 'epoch': 3.0}
+{'train_runtime': 4466.9985, 'train_samples_per_second': 16.543, 'train_steps_per_second': 2.068, 'train_loss': 0.6992714908637435, 'epoch': 3.0}
+
+ test results after fine-tuning with parse trees
+{'eval_loss': 0.6931709051132202, 'eval_f1': 0.3382164038410515, 'eval_recall': 0.5043845404352062, 'eval_precision': 0.25440376463003417, 'eval_accuracy': 0.5043845404352062, 'eval_runtime': 53.8892, 'eval_samples_per_second': 57.136, 'eval_steps_per_second': 7.144, 'epoch': 3.0}
+total runtime: 9081.63
+
