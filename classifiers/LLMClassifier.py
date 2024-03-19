@@ -90,7 +90,7 @@ class LLMClassifier:
         )
 
     def finetune_setup(
-        self, num_epochs=5, seed=42, sample_size=None
+        self, num_epochs=5, seed=42, sample_size=None, batch_size=8, learning_rate=5e-5
     ):
         """
         create all the necessary stuff for the finetune step
@@ -112,8 +112,9 @@ class LLMClassifier:
             output_dir="test_trainer",
             evaluation_strategy="epoch",
             num_train_epochs=num_epochs,
+            per_device_train_batch_size=batch_size,
         )
-        training_args.set_optimizer(name="adamw_torch", learning_rate=1e-3)
+        training_args.set_optimizer(name="adamw_torch", learning_rate=learning_rate)
         training_args.set_lr_scheduler(name="constant_with_warmup", warmup_ratio=0.05)
 
         self.trainer = Trainer(

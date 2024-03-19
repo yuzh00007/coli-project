@@ -35,6 +35,11 @@ if __name__ == "__main__":
         help="number of epochs to run",
         type=int
     )
+    parser.add_argument(
+        "-l", "--learning_rate",
+        help="what to set learning rate",
+        type=float
+    )
     args = parser.parse_args()
 
     import time

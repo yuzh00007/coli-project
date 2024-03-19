@@ -5,9 +5,10 @@ from classifiers.AbstractClassifier import AbstractClassifier
 
 
 def run_abstract(
-    model, tokenizer, sample_size=None, baseline=False, epoch=5, batch_size=8
+    model, tokenizer, sample_size=None, baseline=False, epoch=5, batch_size=8, lr=5e-5
 ):
     """
+    :param lr: learning rate
     :param model: the model
     :param tokenizer: the tokenizer
     :param sample_size: if you want to run with a small sample - for testing code
@@ -37,8 +38,14 @@ def run_abstract(
 
     # do set up - in order to create all the things we will need during the finetune
     # phase. it's here to set up the trainer and evaluate
-    classifier.finetune_setup(num_epochs=epoch, sample_size=sample_size)
-    classifier_w_parse.finetune_setup(num_epochs=epoch, sample_size=sample_size)
+    classifier.finetune_setup(
+        num_epochs=epoch, sample_size=sample_size,
+        batch_size=batch_size if batch_size else 8, learning_rate=lr if lr else 5e-5
+    )
+    classifier_w_parse.finetune_setup(
+        num_epochs=epoch, sample_size=sample_size,
+        batch_size=batch_size if batch_size else 8, learning_rate=lr if lr else 5e-5
+    )
 
     if baseline:
         print(f"validation results out of the box")
@@ -59,9 +66,10 @@ def run_abstract(
 
 
 def run_twitter(
-    model, tokenizer, sample_size=None, baseline=False, epoch=5, batch_size=8
+    model, tokenizer, sample_size=None, baseline=False, epoch=5, batch_size=8, lr=5e-5
 ):
     """
+    :param lr: learning rate
     :param model: the model
     :param tokenizer: the tokenizer
     :param sample_size: if you want to run with a small sample - for testing code
@@ -91,8 +99,14 @@ def run_twitter(
 
     # do set up - in order to create all the things we will need during the finetune
     # phase. it's here to set up the trainer and evaluate
-    classifier.finetune_setup(num_epochs=epoch, sample_size=sample_size)
-    classifier_w_parse.finetune_setup(num_epochs=epoch, sample_size=sample_size)
+    classifier.finetune_setup(
+        num_epochs=epoch, sample_size=sample_size,
+        batch_size=batch_size if batch_size else 8, learning_rate=lr if lr else 5e-5
+    )
+    classifier_w_parse.finetune_setup(
+        num_epochs=epoch, sample_size=sample_size,
+        batch_size=batch_size if batch_size else 8, learning_rate=lr if lr else 5e-5
+    )
 
     if baseline:
         print(f"validation results out of the box")
