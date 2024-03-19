@@ -17,7 +17,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-b", "--baseline",
-        help="whether to run off the shelf on test, True for yes, or False to train and ignore",
+        help="provide a value to this and we'll run baseline, otherwise we'll run training",
         type=bool
     )
     parser.add_argument(
