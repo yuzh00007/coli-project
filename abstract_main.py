@@ -60,4 +60,7 @@ def main():
 
 
 if __name__ == "__main__":
+    import time
+    start = time.time()
     main()
+    print(f"total runtime: {time.time() - start:.2f}")
