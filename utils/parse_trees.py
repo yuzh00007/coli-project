@@ -1,11 +1,22 @@
+import os
 import nltk
-import pandas as pd
 import spacy
 import pickle
 import benepar
+import pandas as pd
 from nltk.tree import *
 
 
+# global variables - bc it's easier this way
+nlp = spacy.load('en_core_web_sm')
+benepar.download('benepar_en3')
+nlp.add_pipe('benepar', config={'model': 'benepar_en3'})
+spacy.prefer_gpu()
+
+
+# couldn't be bothered with figuring out the package import stuff
+# so just copied the two read file utils from utils
+# and that's that...
 def read_csv_file(file_path, sep=";"):
     df = pd.read_csv(file_path, sep=sep)
 
@@ -60,9 +71,8 @@ def prune_depth(tree, depth=3):
     delete_leaves(tree)
 
 
-def generate_parse(nlp, text: str, depth=3):
+def generate_parse(text: str, depth=3):
     """
-    :param nlp: spacy nlp object
     :param text: just a string text - to be parsed
     :param depth: how many children down before we prune the tree
     """
@@ -128,7 +138,7 @@ def generate_freq_category(parse_dict: dict):
     return parse_category_dict
 
 
-def generate_parse_trees_distrib(nlp, texts: list, depth=3, debug=True, pkl_file=None):
+def generate_parse_trees_distrib(texts: list, depth=3, debug=True, pkl_file=None):
     """
     creates a distribution of types of parse trees
     :return: dictionary of parses to counts
@@ -137,7 +147,7 @@ def generate_parse_trees_distrib(nlp, texts: list, depth=3, debug=True, pkl_file
     num_fails = 0
     for text in texts:
         try:
-            trees = generate_parse(nlp, text, depth)
+            trees = generate_parse(text, depth)
             for tree in trees:
                 # we keep count of each type of parse tree and increase it by one
                 parse_dict.update({
@@ -158,13 +168,6 @@ def generate_parse_trees_distrib(nlp, texts: list, depth=3, debug=True, pkl_file
     return parse_dict
 
 
-# global variables - bc it's easier this way
-nlp = spacy.load('en_core_web_sm')
-benepar.download('benepar_en3')
-nlp.add_pipe('benepar', config={'model': 'benepar_en3'})
-spacy.prefer_gpu()
-
-
 def tweepfake():
     train = read_csv_file("../data/tweepfake/train.csv")
     train = train[train.text.str.len() < 512]
@@ -172,14 +175,12 @@ def tweepfake():
     bot_tweets = list(train[train["account.type"] == "bot"]["text"])
 
     generate_parse_trees_distrib(
-        nlp,
         human_tweets,
         debug=True,
         pkl_file="./human_tweet_parse_count.pkl"
     )
 
     generate_parse_trees_distrib(
-        nlp,
         bot_tweets,
         debug=True,
         pkl_file="./bot_tweet_parse_count.pkl"
@@ -194,14 +195,12 @@ def abstract_cheat():
     bot_abstract = bot_abstract["abstract"]
 
     generate_parse_trees_distrib(
-        nlp,
         human_abstract,
         debug=True,
         pkl_file="./human_abstract_parse_count.pkl"
     )
 
     generate_parse_trees_distrib(
-        nlp,
         bot_abstract,
         debug=True,
         pkl_file="./bot_abstract_parse_count.pkl"
@@ -209,5 +208,11 @@ def abstract_cheat():
 
 
 if __name__ == "__main__":
+    # since we do the run from inside /sic_cluster
+    # this is a hammer-meet-nail method to resolve dumb issues with file paths
+    # now all paths will be relative from the outside folder
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    os.chdir(dir_path)
+
     # tweepfake()
     abstract_cheat()

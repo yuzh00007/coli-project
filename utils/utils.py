@@ -32,15 +32,6 @@ def read_json_file(file_path):
     return json_obj
 
 
-def create_nlp_object():
-    nlp = spacy.load('en_core_web_sm')
-    benepar.download('benepar_en3')
-    nlp.add_pipe('benepar', config={'model': 'benepar_en3'})
-    spacy.prefer_gpu()
-
-    return nlp
-
-
 def get_prediction(scores: dict):
     return max(scores, key=lambda x: x["score"])
 

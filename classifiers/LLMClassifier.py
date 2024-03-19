@@ -1,6 +1,4 @@
 import os
-import time
-
 import torch
 import functools
 import pandas as pd
@@ -13,14 +11,13 @@ from utils.parse_trees import generate_parse, generate_freq_category
 class LLMClassifier:
     def __init__(
         self,
-        base_model, tokenizer, nlp, data_folder_path,
+        base_model, tokenizer, data_folder_path,
         seed=42, clean_file_exists=False,
         finetune_with_parse=False,
     ):
         self.seed = seed
         self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
-        self.nlp = nlp
         self.model = base_model
         self.model.to(self.device)
         self.tokeniser = tokenizer
@@ -63,7 +60,7 @@ class LLMClassifier:
     def create_new_parse_col(self, ds):
         parses = ds.apply(
             lambda x: ", ".join(
-                [str(x) for x in generate_parse(self.nlp, x["text"], depth=3)]
+                [str(x) for x in generate_parse(x["text"], depth=3)]
             ), axis=1
         )
         return parses

@@ -1,7 +1,6 @@
 from pathlib import Path
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-from utils.utils import create_nlp_object
 from classifiers.TweetClassifier import TweetClassifier
 
 
@@ -15,12 +14,10 @@ def main():
     except OSError:
         model = AutoModelForSequenceClassification.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta",)
         model.save_pretrained("./models/original", from_pt=True)
-    nlp = create_nlp_object()
 
     classifier = TweetClassifier(
         base_model=model,
         tokenizer=tokenizer,
-        nlp=nlp,
         clean_file_exists=Path("./data/tweepfake/train-clean.pkl").exists(),
         finetune_with_parse=False,
         data_folder_path="./data/tweepfake"
@@ -30,7 +27,6 @@ def main():
     classifier_w_parse = TweetClassifier(
         base_model=model,
         tokenizer=tokenizer,
-        nlp=nlp,
         # second time - should be just read the data the first guy wrote to disk
         clean_file_exists=Path("./data/tweepfake/train-clean.pkl").exists(),
         finetune_with_parse=True,
