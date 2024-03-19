@@ -138,6 +138,9 @@ class LLMClassifier:
         ...
 
     def evaluate(self, split="test", sample_size=None):
-        ds = self.datasets[split].select(range(sample_size))
+        ds = self.datasets[split]
+        if sample_size:
+            ds = ds.select(range(sample_size))
+
         self.model.eval()
         return self.trainer.evaluate(ds)
