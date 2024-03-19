@@ -84,6 +84,7 @@ class TweetClassifier(LLMClassifier):
             train.to_pickle(f"{self.data_path}/train-clean.pkl")
             valid.to_pickle(f"{self.data_path}/valid-clean.pkl")
             test.to_pickle(f"{self.data_path}/test-clean.pkl")
+            print(f"files created: {self.data_path}/train-clean.pkl, valid-clean.pkl, test-clean.pkl")
 
         return ds.DatasetDict({
             "train": ds.Dataset.from_pandas(train),
