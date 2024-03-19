@@ -8,7 +8,7 @@ def main(sample_size, baseline, epoch, batch_size):
     model = AutoModelForSequenceClassification.from_pretrained("./models/original")
 
     run_twitter(model, tokenizer, sample_size, baseline, epoch, batch_size)
-    # run_abstract(model, tokenizer, sample_size, baseline)
+    run_abstract(model, tokenizer, sample_size, baseline)
 
 
 if __name__ == "__main__":
