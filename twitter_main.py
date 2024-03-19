@@ -40,8 +40,8 @@ def main():
 
     # TODO not sure if running evaluate on test set with this model
     #   creates data leakage - does model.eval() turn a blind eye to this data?
-    print(f"validation results out of the box")
-    print(classifier.evaluate("test"))
+    # print(f"validation results out of the box")
+    # print(classifier.evaluate("test"))
 
     print("-" * 15, "\n", "training finetuned model")
     classifier.train("./models/finetuned-twitter")
