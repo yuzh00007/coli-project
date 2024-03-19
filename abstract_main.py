@@ -38,8 +38,8 @@ def main():
     classifier.finetune_setup(num_epochs=5)
     classifier_w_parse.finetune_setup(num_epochs=5)
 
-    print(f"validation results out of the box")
-    print(classifier.evaluate("test"))
+    # print(f"validation results out of the box")
+    # print(classifier.evaluate("test"))
 
     print("-" * 15, "\n", "training finetuned model")
     classifier.train("./models/finetuned-abstract")
