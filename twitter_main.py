@@ -40,23 +40,25 @@ def main():
 
     # do set up - in order to create all the things we will need during the finetune
     # phase. it's here to set up the trainer and evaluate
-    classifier.finetune_setup(num_epochs=2, sample_size=10)
-    classifier_w_parse.finetune_setup(num_epochs=2, sample_size=10)
+    classifier.finetune_setup(num_epochs=5)
+    classifier_w_parse.finetune_setup(num_epochs=5)
 
+    # TODO not sure if running evaluate on test set with this model
+    #   creates data leakage - does model.eval() turn a blind eye to this data?
     print(f"validation results out of the box")
-    print(classifier.evaluate("test", sample_size=10))
+    print(classifier.evaluate("test"))
 
     print("-" * 15, "\n", "training finetuned model")
     classifier.train("./models/finetuned-twitter")
 
     print("\n", "test results after fine-tuning")
-    print(classifier.evaluate("test", sample_size=10))
+    print(classifier.evaluate("test"))
 
     print("-" * 15, "\n", "training parse-tree model")
     classifier_w_parse.train("./models/parsed-twitter")
 
     print("\n", "test results after fine-tuning with parse trees")
-    print(classifier_w_parse.evaluate("test", sample_size=10))
+    print(classifier_w_parse.evaluate("test"))
 
 
 if __name__ == "__main__":
