@@ -84,7 +84,19 @@ def combine_two_dicts(dict1: dict, dict2: dict):
     return new_dict
 
 
-def divide_data(dataset):
-    train, test = train_test_split(dataset, 0.15)
-    train, valid = train_test_split(train, 0.2)
-    return train, valid, test
+def divide_data(df, train_cut=.8, valid_cut=.9):
+    """
+    divides a df into three: train, valid, test
+    train_cut .8 and valid_cut .9 => 80% 10% 10%
+    train_cut .6 and valid_cut .8 => 60% 20% 20%
+
+    :param df: single df to divide into 3 splits
+    :param train_cut: what percent to make a cut in the data to divide train and rest
+    :param valid_cut: what percent to make a cut in the data to divide test and rest
+    :return: 3 dataframes
+    """
+    train, validate, test = np.split(
+        df.sample(frac=1, random_state=1),
+        [int(train_cut * len(df)), int(valid_cut * len(df))]
+    )
+    return train, validate, test
