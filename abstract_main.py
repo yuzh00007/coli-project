@@ -17,13 +17,11 @@ def main():
         model.save_pretrained("./models/original", from_pt=True)
     nlp = create_nlp_object()
 
-    clean_file = Path("./data/cheat/train-clean.pkl")
-    clean_file_exist = clean_file.exists()
     classifier = AbstractClassifier(
         base_model=model,
         tokenizer=tokenizer,
         nlp=nlp,
-        clean_file_exists=clean_file_exist,
+        clean_file_exists=Path("./data/cheat/train-clean.pkl").exists(),
         finetune_with_parse=False,
         data_folder_path="./data/cheat"
     )
@@ -33,7 +31,8 @@ def main():
         base_model=model,
         tokenizer=tokenizer,
         nlp=nlp,
-        clean_file_exists=clean_file_exist,
+        # second time - should be just read the data the first guy wrote to disk
+        clean_file_exists=Path("./data/cheat/train-clean.pkl").exists(),
         finetune_with_parse=True,
         data_folder_path="./data/cheat"
     )
