@@ -22,7 +22,6 @@ def run_abstract(
         clean_file_exists=Path("./data/cheat/train-clean.pkl").exists(),
         finetune_with_parse=False,
         data_folder_path="./data/cheat",
-        per_device_train_batch_size=batch_size
     )
     print(classifier.datasets)
 
@@ -33,7 +32,6 @@ def run_abstract(
         clean_file_exists=Path("./data/cheat/train-clean.pkl").exists(),
         finetune_with_parse=True,
         data_folder_path="./data/cheat",
-        per_device_train_batch_size=batch_size
     )
 
     # do set up - in order to create all the things we will need during the finetune
