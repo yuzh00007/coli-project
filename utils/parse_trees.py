@@ -177,13 +177,13 @@ def tweepfake():
     generate_parse_trees_distrib(
         human_tweets,
         debug=True,
-        pkl_file="./human_tweet_parse_count.pkl"
+        pkl_file="../data/tweepfake/human_tweet_parse_count.pkl"
     )
 
     generate_parse_trees_distrib(
         bot_tweets,
         debug=True,
-        pkl_file="./bot_tweet_parse_count.pkl"
+        pkl_file="../data/tweepfake/bot_tweet_parse_count.pkl"
     )
 
 
@@ -197,22 +197,16 @@ def abstract_cheat():
     generate_parse_trees_distrib(
         human_abstract,
         debug=True,
-        pkl_file="./human_abstract_parse_count.pkl"
+        pkl_file="../data/cheat/human_abstract_parse_count.pkl"
     )
 
     generate_parse_trees_distrib(
         bot_abstract,
         debug=True,
-        pkl_file="./bot_abstract_parse_count.pkl"
+        pkl_file="../data/cheat/bot_abstract_parse_count.pkl"
     )
 
 
 if __name__ == "__main__":
-    # since we do the run from inside /sic_cluster
-    # this is a hammer-meet-nail method to resolve dumb issues with file paths
-    # now all paths will be relative from the outside folder
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    os.chdir(dir_path)
-
-    # tweepfake()
+    tweepfake()
     abstract_cheat()
