@@ -1,10 +1,7 @@
 import os
-import spacy
-import benepar
 import datasets
 import numpy as np
 import pandas as pd
-from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 
 
 def read_csv_file(file_path, sep=";"):
@@ -33,28 +30,18 @@ def read_json_file(file_path):
     return json_obj
 
 
-def get_prediction(scores: dict):
-    return max(scores, key=lambda x: x["score"])
-
-
 def tokenize_function(examples, tokeniser, col_name):
     return tokeniser(examples[col_name], padding="max_length", truncation=True)
 
 
+# place outside compute_metrics because it takes a lot of time
+# compute_metrics getting called every few steps means this would clog the training loop
 metric = datasets.load_metric('accuracy')
 
 
 def compute_metrics(eval_pred):
     logits, labels = eval_pred
     predictions = np.argmax(logits, axis=1)
-
-    # acc = accuracy_score(labels, predictions)
-    # precision, recall, f1, _ = precision_recall_fscore_support(
-    #     labels, predictions, average="weighted"
-    # )
-
-    # return {"f1": f1, "recall": recall, "precision": precision, "accuracy": acc}
-
     return metric.compute(predictions=predictions, references=labels)
 
 
