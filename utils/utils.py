@@ -41,8 +41,7 @@ def tokenize_function(examples, tokeniser, col_name):
     return tokeniser(examples[col_name], padding="max_length", truncation=True)
 
 
-# beat 192.15s
-metric = datasets.load_metric('accuracy', keep_in_memory=True)
+metric = datasets.load_metric('accuracy')
 
 
 def compute_metrics(eval_pred):
