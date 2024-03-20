@@ -36,7 +36,7 @@ def tokenize_function(examples, tokeniser, col_name):
 
 # place outside compute_metrics because it takes a lot of time
 # compute_metrics getting called every few steps means this would clog the training loop
-metric = datasets.load_metric('accuracy')
+metric = datasets.load_metric('accuracy', keep_in_memory=True)
 
 
 def compute_metrics(eval_pred):
