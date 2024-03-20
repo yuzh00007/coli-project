@@ -114,8 +114,13 @@ class LLMClassifier:
             num_train_epochs=num_epochs,
             per_device_train_batch_size=batch_size,
         )
+
+        print(training_args)
+
         training_args.set_optimizer(name="adamw_torch", learning_rate=learning_rate)
         training_args.set_lr_scheduler(name="constant_with_warmup", warmup_ratio=0.05)
+
+        print(training_args)
 
         self.trainer = Trainer(
             model=self.model,
