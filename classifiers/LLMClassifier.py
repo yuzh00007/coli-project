@@ -111,16 +111,17 @@ class LLMClassifier:
         training_args = TrainingArguments(
             output_dir="test_trainer",
             evaluation_strategy="epoch",
-            num_train_epochs=num_epochs,
             per_device_train_batch_size=batch_size,
         )
 
-        print(training_args)
+        print(training_args.num_train_epochs)
 
         training_args.set_optimizer(name="adamw_torch", learning_rate=learning_rate)
-        training_args.set_lr_scheduler(name="constant_with_warmup", warmup_ratio=0.05)
+        training_args.set_lr_scheduler(
+            name="cosine", warmup_steps=200, num_epochs=num_epochs
+        )
 
-        print(training_args)
+        print(training_args.num_train_epochs)
 
         self.trainer = Trainer(
             model=self.model,
