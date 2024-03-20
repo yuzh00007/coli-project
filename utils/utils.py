@@ -1,6 +1,7 @@
 import os
 import spacy
 import benepar
+import datasets
 import numpy as np
 import pandas as pd
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
@@ -40,16 +41,21 @@ def tokenize_function(examples, tokeniser, col_name):
     return tokeniser(examples[col_name], padding="max_length", truncation=True)
 
 
+metric = datasets.load_metric('accuracy')
+
+
 def compute_metrics(eval_pred):
     logits, labels = eval_pred
-    predictions = np.argmax(logits, axis=-1)
+    predictions = np.argmax(logits, axis=1)
 
-    acc = accuracy_score(labels, predictions)
-    precision, recall, f1, _ = precision_recall_fscore_support(
-        labels, predictions, average="weighted"
-    )
+    # acc = accuracy_score(labels, predictions)
+    # precision, recall, f1, _ = precision_recall_fscore_support(
+    #     labels, predictions, average="weighted"
+    # )
 
-    return {"f1": f1, "recall": recall, "precision": precision, "accuracy": acc}
+    # return {"f1": f1, "recall": recall, "precision": precision, "accuracy": acc}
+
+    return metric.compute(predictions=predictions, references=labels)
 
 
 def combine_two_dicts(dict1: dict, dict2: dict):
