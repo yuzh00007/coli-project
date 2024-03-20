@@ -3,12 +3,12 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from runners import run_abstract, run_twitter
 
 
-def main(sample_size, baseline, epoch, batch_size):
+def main(sample_size, baseline, epoch, batch_size, lr):
     tokenizer = AutoTokenizer.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta", )
     model = AutoModelForSequenceClassification.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta", num_labels=2)
 
-    run_twitter(model, tokenizer, sample_size=sample_size, baseline=baseline, epoch=epoch, batch_size=batch_size)
-    # run_abstract(model, tokenizer, sample_size=sample_size, baseline=baseline, epoch=epoch, batch_size=batch_size)
+    run_twitter(model, tokenizer, sample_size=sample_size, baseline=baseline, epoch=epoch, batch_size=batch_size, lr=lr)
+    # run_abstract(model, tokenizer, sample_size=sample_size, baseline=baseline, epoch=epoch, batch_size=batch_size, lr=lr)
 
 
 if __name__ == "__main__":
@@ -43,11 +43,21 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     import time
+
     start = time.time()
+
+    print(
+        f"running with args: "
+        f"learning_rate={args.learning_rate}, "
+        f"epochs={args.epoch}, "
+        f"train_batch_size={args.per_device_train_batch_size}"
+    )
+
     main(
         sample_size=args.sample_size,
         baseline=args.baseline,
         epoch=args.epoch,
-        batch_size=args.per_device_train_batch_size
+        batch_size=args.per_device_train_batch_size,
+        lr=args.learning_rate
     )
     print(f"total runtime: {time.time() - start:.2f}")
