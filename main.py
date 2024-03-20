@@ -5,7 +5,7 @@ from runners import run_abstract, run_twitter
 
 def main(sample_size, baseline, epoch, batch_size):
     tokenizer = AutoTokenizer.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta", )
-    model = AutoModelForSequenceClassification.from_pretrained("./models/original")
+    model = AutoModelForSequenceClassification.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta", num_labels=2)
 
     run_twitter(model, tokenizer, sample_size=sample_size, baseline=baseline, epoch=epoch, batch_size=batch_size)
     run_abstract(model, tokenizer, sample_size=sample_size, baseline=baseline, epoch=epoch, batch_size=batch_size)
