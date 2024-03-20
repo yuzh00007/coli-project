@@ -111,7 +111,7 @@ class LLMClassifier:
             valid_dataset = valid_dataset.select(range(sample_size))
 
         training_args = TrainingArguments(
-            output_dir="test_trainer",
+            output_dir="trainer",
             evaluation_strategy="epoch",
             per_device_train_batch_size=batch_size,
         )
@@ -150,6 +150,11 @@ class LLMClassifier:
         logits = self.trainer.predict(ds).predictions
         predictions = np.argmax(logits, axis=1)
 
+        # using predict() instead of evaluate bc I want recall, precision, and f1
+        # and I can't be bothered to load all those metrics via transformer load_metrics
+        # sklean is also a lot faster (at least from my experience)
+        # this does mean we only get these non-accuracy metrics when we evaluate
+        # and not every epoch during training - but that's ok.
         acc = accuracy_score(labels, predictions)
         precision, recall, f1, _ = precision_recall_fscore_support(
             labels, predictions, average="weighted"
