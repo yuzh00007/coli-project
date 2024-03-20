@@ -30,6 +30,19 @@ two datasets are available in the code: CHEAT (academic abstract) and Tweepfake 
     └── utils.py
 ```
 
+# Environment Setup
+
+for local runs:
+```commandline
+pip install -r requirements.txt
+```
+
+for cluster runs:
+```commandline
+condor_submit sic_cluster/setup.sub
+```
+this needs to be run only when the `sic_cluster/environment.yml` file is updated.
+
 
 # Data Files
 this project currently finetunes with two datasets. 
@@ -86,14 +99,11 @@ see `sic_cluster/run.sh` file for more examples - or to modify jobs submitted to
 
 to run on the CS department clusters:
 ```
-condor_submit sic_cluster/setup.sub     # set up environment and install requirements
-condor_submit run.sub                   # run job
+condor_submit run.sub
 ```
 
 training and evaluation outputs along with any error logs are located in `sic_cluster/logs/`
 if running on the cluster. if running locally, all metrics will be printed out.
-
-for cluster runs, setup.sub only needs to be submitted once. unless the `sic_cluster/environment.yml` file is updated.
 
 
 # Model Checkpoints
