@@ -8,7 +8,7 @@ def main(sample_size, baseline, epoch, batch_size):
     model = AutoModelForSequenceClassification.from_pretrained("Hello-SimpleAI/chatgpt-detector-roberta", num_labels=2)
 
     run_twitter(model, tokenizer, sample_size=sample_size, baseline=baseline, epoch=epoch, batch_size=batch_size)
-    run_abstract(model, tokenizer, sample_size=sample_size, baseline=baseline, epoch=epoch, batch_size=batch_size)
+    # run_abstract(model, tokenizer, sample_size=sample_size, baseline=baseline, epoch=epoch, batch_size=batch_size)
 
 
 if __name__ == "__main__":

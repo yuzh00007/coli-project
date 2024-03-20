@@ -1,7 +1,9 @@
 import os
 import torch
 import functools
+import numpy as np
 import pandas as pd
+from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 from transformers import TextClassificationPipeline, TrainingArguments, Trainer
 
 from utils.utils import tokenize_function, compute_metrics
@@ -143,4 +145,14 @@ class LLMClassifier:
             ds = ds.select(range(sample_size))
 
         self.model.eval()
-        return self.trainer.evaluate(ds)
+
+        labels = ds["labels"]
+        logits = self.trainer.predict(ds).predictions
+        predictions = np.argmax(logits, axis=1)
+
+        acc = accuracy_score(labels, predictions)
+        precision, recall, f1, _ = precision_recall_fscore_support(
+            labels, predictions, average="weighted"
+        )
+
+        return {"f1": f1, "recall": recall, "precision": precision, "accuracy": acc}
