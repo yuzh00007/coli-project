@@ -6,7 +6,7 @@ which python
 #python utils/parse_trees.py
 
 # for testing
-python main.py --sample_size 1 --epoch 1 --per_device_train_batch_size 8 --learning_rate 5e-5
+python main.py --sample_size 100 --epoch 3 --per_device_train_batch_size 8 --learning_rate 5e-5
 
 # actual runs
 # run a first baseline, then train and evaluate
