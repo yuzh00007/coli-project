@@ -1,9 +1,9 @@
 import os
-import time
-
 import torch
 import functools
+import numpy as np
 import pandas as pd
+from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 from transformers import TextClassificationPipeline, TrainingArguments, Trainer
 
 from utils.utils import tokenize_function, compute_metrics
@@ -13,14 +13,13 @@ from utils.parse_trees import generate_parse, generate_freq_category
 class LLMClassifier:
     def __init__(
         self,
-        base_model, tokenizer, nlp, data_folder_path,
+        base_model, tokenizer, data_folder_path,
         seed=42, clean_file_exists=False,
         finetune_with_parse=False,
     ):
         self.seed = seed
         self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
-        self.nlp = nlp
         self.model = base_model
         self.model.to(self.device)
         self.tokeniser = tokenizer
@@ -63,7 +62,7 @@ class LLMClassifier:
     def create_new_parse_col(self, ds):
         parses = ds.apply(
             lambda x: ", ".join(
-                [str(x) for x in generate_parse(self.nlp, x["text"], depth=3)]
+                [str(x) for x in generate_parse(x["text"], depth=3)]
             ), axis=1
         )
         return parses
@@ -93,7 +92,7 @@ class LLMClassifier:
         )
 
     def finetune_setup(
-        self, num_epochs=5, seed=42, sample_size=None
+        self, num_epochs=5, seed=42, sample_size=None, batch_size=8, learning_rate=5e-5
     ):
         """
         create all the necessary stuff for the finetune step
@@ -111,19 +110,16 @@ class LLMClassifier:
             train_dataset = train_dataset.select(range(sample_size))
             valid_dataset = valid_dataset.select(range(sample_size))
 
-        print("~~~~H~~~~")
-        print(time.time())
-
         training_args = TrainingArguments(
-            output_dir="test_trainer",
+            output_dir="trainer",
             evaluation_strategy="epoch",
-            num_train_epochs=num_epochs,
+            per_device_train_batch_size=batch_size,
         )
-        training_args.set_optimizer(name="adamw_torch", learning_rate=1e-3)
-        training_args.set_lr_scheduler(name="constant_with_warmup", warmup_ratio=0.05)
 
-        print("~~~~I~~~~")
-        print(time.time())
+        training_args.set_optimizer(name="adamw_torch", learning_rate=learning_rate)
+        training_args.set_lr_scheduler(
+            name="cosine", warmup_steps=200, num_epochs=num_epochs
+        )
 
         self.trainer = Trainer(
             model=self.model,
@@ -144,6 +140,24 @@ class LLMClassifier:
         ...
 
     def evaluate(self, split="test", sample_size=None):
-        ds = self.datasets[split].select(range(sample_size))
+        ds = self.datasets[split]
+        if sample_size:
+            ds = ds.select(range(sample_size))
+
         self.model.eval()
-        return self.trainer.evaluate(ds)
+
+        labels = ds["labels"]
+        logits = self.trainer.predict(ds).predictions
+        predictions = np.argmax(logits, axis=1)
+
+        # using predict() instead of evaluate bc I want recall, precision, and f1
+        # and I can't be bothered to load all those metrics via transformer load_metrics
+        # sklean is also a lot faster (at least from my experience)
+        # this does mean we only get these non-accuracy metrics when we evaluate
+        # and not every epoch during training - but that's ok.
+        acc = accuracy_score(labels, predictions)
+        precision, recall, f1, _ = precision_recall_fscore_support(
+            labels, predictions, average="weighted"
+        )
+
+        return {"f1": f1, "recall": recall, "precision": precision, "accuracy": acc}
