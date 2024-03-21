@@ -1,0 +1,90 @@
+'PROJECT_ROOT=/home/neuronet_team095/coli-project'
+Running 'run.sh' in conda env coli_env
+Thu Mar 21 01:36:49 2024       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 545.23.08              Driver Version: 545.23.08    CUDA Version: 12.3     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  Tesla P100-PCIE-16GB           On  | 00000000:04:00.0 Off |                    0 |
+| N/A   31C    P0              25W / 250W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   1  Tesla P100-PCIE-16GB           On  | 00000000:06:00.0 Off |                    0 |
+| N/A   35C    P0              26W / 250W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   2  Tesla P100-PCIE-16GB           On  | 00000000:07:00.0 Off |                    0 |
+| N/A   36C    P0              27W / 250W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   3  Tesla P100-PCIE-16GB           On  | 00000000:08:00.0 Off |                    0 |
+| N/A   29C    P0              27W / 250W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   4  Tesla P100-PCIE-16GB           On  | 00000000:0C:00.0 Off |                    0 |
+| N/A   35C    P0              27W / 250W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   5  Tesla P100-PCIE-16GB           On  | 00000000:0D:00.0 Off |                    0 |
+| N/A   33C    P0              25W / 250W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   6  Tesla P100-PCIE-16GB           On  | 00000000:0E:00.0 Off |                    0 |
+| N/A   35C    P0              27W / 250W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+|   7  Tesla P100-PCIE-16GB           On  | 00000000:0F:00.0 Off |                    0 |
+| N/A   36C    P0              26W / 250W |      2MiB / 16384MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+GPU-5d3dd972
+neuronet_team095-46928.0-uller.hpc.uni-saarland.de
+/home/neuronet_team095/miniconda3/envs/coli_env/bin/python
+running with args: learning_rate=None, epochs=None, train_batch_size=None
+DatasetDict({
+    train: Dataset({
+        features: ['text', 'labels', 'concat', '__index_level_0__', 'input_ids', 'attention_mask'],
+        num_rows: 20710
+    })
+    valid: Dataset({
+        features: ['text', 'labels', 'concat', '__index_level_0__', 'input_ids', 'attention_mask'],
+        num_rows: 2301
+    })
+    test: Dataset({
+        features: ['text', 'labels', 'concat', '__index_level_0__', 'input_ids', 'attention_mask'],
+        num_rows: 2555
+    })
+})
+cuda
+validation results out of the box
+{'f1': 0.35994238815421015, 'recall': 0.5056751467710372, 'precision': 0.570346527986901, 'accuracy': 0.5056751467710372}
+DatasetDict({
+    train: Dataset({
+        features: ['text', 'labels', 'concat', '__index_level_0__', 'input_ids', 'attention_mask'],
+        num_rows: 24632
+    })
+    valid: Dataset({
+        features: ['text', 'labels', 'concat', '__index_level_0__', 'input_ids', 'attention_mask'],
+        num_rows: 3079
+    })
+    test: Dataset({
+        features: ['text', 'labels', 'concat', '__index_level_0__', 'input_ids', 'attention_mask'],
+        num_rows: 3079
+    })
+})
+cuda
+validation results out of the box
+{'f1': 0.7803306384864457, 'recall': 0.7866190321532965, 'precision': 0.8264544814594539, 'accuracy': 0.7866190321532965}
+total runtime: 140.31
+
