@@ -18,6 +18,8 @@ two datasets are available in the code: CHEAT (academic abstract) and Tweepfake 
 ├── runners.py
 ├── README.md
 ├── requirements.txt
+├── results
+│ └── results.ipynb
 ├── run.sub
 ├── sic_cluster
 │ ├── conda_run.sh
@@ -42,6 +44,12 @@ for cluster runs:
 condor_submit sic_cluster/setup.sub
 ```
 this needs to be run only when the `sic_cluster/environment.yml` file is updated.
+
+
+# Results
+for results on my run - please see `results/` for all the data that was produced
+(raw output and edited jsonl files). the [results.ipynb](results/results.ipynb) notebook 
+displays the data in an easier to read tabular format. 
 
 
 # Data Files
