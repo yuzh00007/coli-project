@@ -34,6 +34,8 @@ def run_abstract(
         data_folder_path="./data/cheat",
     )
 
+    print(classifier_w_parse.device)
+
     # do set up - in order to create all the things we will need during the finetune
     # phase. it's here to set up the trainer and evaluate
     classifier.finetune_setup(
@@ -92,6 +94,8 @@ def run_twitter(
         finetune_with_parse=True,
         data_folder_path="./data/tweepfake"
     )
+
+    print(classifier_w_parse.device)
 
     # do set up - in order to create all the things we will need during the finetune
     # phase. it's here to set up the trainer and evaluate
