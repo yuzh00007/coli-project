@@ -1,6 +1,6 @@
 'PROJECT_ROOT=/home/neuronet_team095/coli-project'
 Running 'run.sh' in conda env coli_env
-Wed Mar 20 07:46:21 2024       
+Wed Mar 20 07:46:21 2024
 +---------------------------------------------------------------------------------------+
 | NVIDIA-SMI 545.23.08              Driver Version: 545.23.08    CUDA Version: 12.3     |
 |-----------------------------------------+----------------------+----------------------+
@@ -40,7 +40,7 @@ Wed Mar 20 07:46:21 2024
 | N/A   36C    P0              26W / 250W |      2MiB / 16384MiB |      0%      Default |
 |                                         |                      |                  N/A |
 +-----------------------------------------+----------------------+----------------------+
-                                                                                         
+
 +---------------------------------------------------------------------------------------+
 | Processes:                                                                            |
 |  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
@@ -66,7 +66,7 @@ DatasetDict({
         num_rows: 2555
     })
 })
---------------- 
+---------------
  training finetuned model
 {'loss': 0.864, 'grad_norm': 2.1602981090545654, 'learning_rate': 9.996635617660905e-06, 'epoch': 0.19}
 {'loss': 0.4264, 'grad_norm': 1.7123005390167236, 'learning_rate': 9.976091897424243e-06, 'epoch': 0.39}
@@ -133,7 +133,7 @@ DatasetDict({
 
  test results after fine-tuning
 {'f1': 0.8833659848527139, 'recall': 0.8833659491193738, 'precision': 0.8833671031383841, 'accuracy': 0.8833659491193738}
---------------- 
+---------------
  training parse-tree model
 {'loss': 0.3228, 'grad_norm': 15.618988037109375, 'learning_rate': 9.996635617660905e-06, 'epoch': 0.19}
 {'loss': 0.2658, 'grad_norm': 0.1972476691007614, 'learning_rate': 9.976091897424243e-06, 'epoch': 0.39}
@@ -214,7 +214,7 @@ DatasetDict({
         num_rows: 3079
     })
 })
---------------- 
+---------------
  training finetuned model
 {'loss': 0.6524, 'grad_norm': 15.993152618408203, 'learning_rate': 9.997627047993818e-06, 'epoch': 0.16}
 {'loss': 0.1179, 'grad_norm': 0.010588874109089375, 'learning_rate': 9.98313383051621e-06, 'epoch': 0.32}
@@ -291,7 +291,7 @@ DatasetDict({
 
  test results after fine-tuning
 {'f1': 0.9788766129139223, 'recall': 0.9788892497564144, 'precision': 0.9796856080883383, 'accuracy': 0.9788892497564144}
---------------- 
+---------------
  training parse-tree model
 {'loss': 0.0177, 'grad_norm': 0.11499062180519104, 'learning_rate': 9.997627047993818e-06, 'epoch': 0.16}
 {'loss': 0.0101, 'grad_norm': 0.0001557304203743115, 'learning_rate': 9.98313383051621e-06, 'epoch': 0.32}
@@ -369,4 +369,3 @@ DatasetDict({
  test results after fine-tuning with parse trees
 {'f1': 0.9866803711877925, 'recall': 0.9866839883078922, 'precision': 0.9869937227002897, 'accuracy': 0.9866839883078922}
 total runtime: 55446.35
-
